@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Selkie.DefCon.One.Common\Selkie.DefCon.One.Common.csproj" />
     <ProjectReference Include="..\Selkie.DefCon.One.Test.Examples\Selkie.DefCon.One.Test.Examples.csproj" />
     <ProjectReference Include="..\Selkie.DefCon.One\Selkie.DefCon.One.csproj" />
   </ItemGroup>

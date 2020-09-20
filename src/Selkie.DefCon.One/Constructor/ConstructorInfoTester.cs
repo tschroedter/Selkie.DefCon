@@ -63,7 +63,7 @@ namespace Selkie.DefCon.One.Constructor
                     continue ;
 
                 if ( parameterInfo.CustomAttributes.Any ( IsParameterIgnored ) )
-                {
+                {   // todo logging ignore parameter and separate GuardIgnored attribute from test nuget package
                     IgnoreSingleParameter ( instanceType ,
                                             info ,
                                             arrayParameter ,
