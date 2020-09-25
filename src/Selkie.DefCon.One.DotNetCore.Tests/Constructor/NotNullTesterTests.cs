@@ -91,6 +91,29 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
             }
         }
 
+        [TestMethod]
+        public void Constructor_ForExamplePassingComplexAndAnyParameterNullThrows_AllPassing()
+        {
+            var sut = CreateSut();
+
+            sut.Test<ExamplePassingComplex>();
+
+            using (new AssertionScope())
+            {
+                sut.HasPassed
+                   .Should()
+                   .BeTrue();
+
+                sut.ConstructorsToTest
+                   .Should()
+                   .Be(1);
+
+                sut.ConstructorsFailed
+                   .Should()
+                   .Be(0);
+            }
+        }
+
         [TestInitialize ]
         public void Initialize ( )
         {

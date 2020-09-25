@@ -34,7 +34,8 @@ namespace Selkie.DefCon.One.Common
 
             var parameterType = parameterInfo.ParameterType ;
 
-            if ( parameterType.IsInterface )
+            if ( parameterType.IsInterface ||
+                 parameterType.IsGenericType )
                 return Substitute.For ( new [ ]
                                         {
                                             parameterType
