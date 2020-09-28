@@ -1,7 +1,9 @@
 ﻿using System ;
+using System.Collections.Generic ;
 using System.Reflection ;
 using JetBrains.Annotations ;
 using Selkie.DefCon.One.Interfaces ;
+using Selkie.DefCon.One.Interfaces.Arguments ;
 
 namespace Selkie.DefCon.One.Common
 {
@@ -9,9 +11,9 @@ namespace Selkie.DefCon.One.Common
     [ UsedImplicitly ]
     public class ParameterCreator : IParameterCreator
     {
-        private readonly IParameterInstanceCreator _creator ;
+        private readonly IArgumentsGenerator _creator ;
 
-        public ParameterCreator ( [ NotNull ] IParameterInstanceCreator creator )
+        public ParameterCreator ( [ NotNull ] IArgumentsGenerator creator ) // todo rename Arguments or ParameterCreator
         {
             Guard.ArgumentNotNull ( creator ,
                                     nameof ( creator ) ) ;
@@ -34,11 +36,23 @@ namespace Selkie.DefCon.One.Common
                                     0 ,
                                     arrayParameter.Length - 1 ) ;
 
-            var parameters = _creator.Create ( arrayParameter ) ;
+            var parameters = _creator.Create ( ToParameterInfos ( arrayParameter ) ) ;
 
             parameters [ parameterIndex ] = parameterValue ;
 
             return parameters ;
+        }
+
+        private static List < IParameterInfo > ToParameterInfos ( ParameterInfo [ ] arrayParameter )
+        {
+            var list = new List < IParameterInfo > ( ) ;
+
+            foreach ( var parameterInfo in arrayParameter )
+            {
+                list.Add ( new Arguments.ParameterInfo ( parameterInfo ) ) ;
+            }
+
+            return list ;
         }
     }
 }

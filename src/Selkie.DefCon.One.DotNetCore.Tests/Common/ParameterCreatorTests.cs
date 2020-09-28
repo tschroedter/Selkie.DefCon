@@ -1,4 +1,5 @@
 ﻿using System ;
+using System.Collections.Generic ;
 using System.Linq ;
 using System.Reflection ;
 using FluentAssertions ;
@@ -6,19 +7,19 @@ using FluentAssertions.Execution ;
 using Microsoft.VisualStudio.TestTools.UnitTesting ;
 using NSubstitute ;
 using Selkie.DefCon.One.Common ;
-using Selkie.DefCon.One.Interfaces ;
+using Selkie.DefCon.One.Interfaces.Arguments ;
 
 namespace Selkie.DefCon.One.DotNetCore.Tests.Common
 {
     [ TestClass ]
     public class ParameterCreatorTests
     {
-        private ParameterInfo [ ]         _arrayParameter ;
-        private object [ ]                _createdParameters ;
-        private IParameterInstanceCreator _creator ;
-        private int                       _parameterIndex ;
-        private object                    _parameterValue ;
-        private Type                      _type ;
+        private ParameterInfo [ ]   _arrayParameter ;
+        private object [ ]          _createdParameters ;
+        private IArgumentsGenerator _creator ;
+        private int                 _parameterIndex ;
+        private object              _parameterValue ;
+        private Type                _type ;
 
         [ TestMethod ]
         public void Constructor_ForIParameterInstanceCreatorIsNull_Throws ( )
@@ -137,7 +138,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
         [ TestInitialize ]
         public void Setup ( )
         {
-            _creator = Substitute.For < IParameterInstanceCreator > ( ) ;
+            _creator = Substitute.For < IArgumentsGenerator > ( ) ;
 
             _type = typeof ( TestClassWithInterface ) ;
             _arrayParameter = typeof ( TestClassWithInterface ).GetConstructors ( )
@@ -154,7 +155,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
                                      0
                                  } ;
 
-            _creator.Create ( Arg.Any < ParameterInfo [ ] > ( ) )
+            _creator.Create ( Arg.Any < IEnumerable < IParameterInfo > > ( ) )
                     .Returns ( _createdParameters ) ;
         }
 

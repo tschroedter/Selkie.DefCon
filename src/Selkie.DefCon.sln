@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Selkie.DefCon.One.DotNetCor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Selkie.DefCon.One.Test.Examples", "Selkie.DefCon.One.Test.Examples\Selkie.DefCon.One.Test.Examples.csproj", "{B845C44D-D2C0-4709-8A23-7C28A54245A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.DefCon.One.Common", "Selkie.DefCon.One.Common\Selkie.DefCon.One.Common.csproj", "{0606AD20-2808-4778-94BB-F428AF6772A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Selkie.DefCon.One.Common", "Selkie.DefCon.One.Common\Selkie.DefCon.One.Common.csproj", "{0606AD20-2808-4778-94BB-F428AF6772A6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

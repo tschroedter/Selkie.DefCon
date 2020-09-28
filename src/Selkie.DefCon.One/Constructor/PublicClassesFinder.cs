@@ -27,6 +27,7 @@ namespace Selkie.DefCon.One.Constructor
             AllDefinedTypes = assembly.GetTypes ( ) ;
 
             DefinedTypes = AllDefinedTypes.Where ( IsClass )
+                                          .Where ( x => ! IsDelegate ( x ) )
                                           .ToArray ( ) ;
 
             IgnoredTypes = AllDefinedTypes.Except ( DefinedTypes )
@@ -49,6 +50,23 @@ namespace Selkie.DefCon.One.Constructor
         private static bool IsClass ( Type type )
         {
             return type.IsClass && ! type.IsAbstract && ! type.IsInterface ;
+        }
+
+        private static bool IsDelegate ( Type type )
+        {
+            var baseType = type ;
+
+            while ( baseType != null )
+            {
+                if ( baseType.BaseType          != null &&
+                     baseType.BaseType.FullName != null &&
+                     baseType.BaseType.FullName.Contains ( "System.MulticastDelegate" ) )
+                    return true ; // todo log ignored delegate
+
+                baseType = baseType.BaseType ;
+            }
+
+            return false ;
         }
     }
 }
