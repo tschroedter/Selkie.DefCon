@@ -8,7 +8,8 @@ namespace Selkie.DefCon.One.Common
 {
     public class CallerEnricher : ILogEventEnricher
     {
-        public void Enrich ( LogEvent logEvent , ILogEventPropertyFactory propertyFactory )
+        public void Enrich ( LogEvent                 logEvent ,
+                             ILogEventPropertyFactory propertyFactory )
         {
             var skip = 3 ;
             while ( true )

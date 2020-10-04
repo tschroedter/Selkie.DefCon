@@ -27,7 +27,8 @@ namespace Selkie.DefCon.One.Arguments
         /// </summary>
         /// <param name="targetType"></param>
         /// <param name="registeredType"></param>
-        public BeNullCustomization ( Type targetType , Type registeredType )
+        public BeNullCustomization ( Type targetType ,
+                                     Type registeredType )
         {
             if ( targetType     == null ) throw new ArgumentNullException ( nameof ( targetType ) ) ;
             if ( registeredType == null ) throw new ArgumentNullException ( nameof ( registeredType ) ) ;
