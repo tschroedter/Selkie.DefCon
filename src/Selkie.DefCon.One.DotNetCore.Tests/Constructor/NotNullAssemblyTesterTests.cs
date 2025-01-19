@@ -38,7 +38,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
             Log.Logger = new LoggerConfiguration ( )
                         .Enrich.WithCaller ( )
                         .MinimumLevel.Information ( )
-                        .WriteTo.ColoredConsole ( LogEventLevel.Debug , template )
+                        .WriteTo.Console ( LogEventLevel.Debug , template )
                         .CreateLogger ( ) ;
 
             var builder = new ContainerBuilder ( ) ;
