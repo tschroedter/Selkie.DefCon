@@ -41,7 +41,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
 
             Action action = ( ) => CreateSut ( )
                                .Create ( _type ,
-                                         _arrayParameter ,
+                                         _arrayParameter! ,
                                          _parameterIndex ,
                                          _parameterValue ) ;
 
@@ -124,7 +124,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
             _type = null ;
 
             Action action = ( ) => CreateSut ( )
-                               .Create ( _type ,
+                               .Create ( _type! ,
                                          _arrayParameter ,
                                          _parameterIndex ,
                                          _parameterValue ) ;
@@ -147,13 +147,13 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
             _parameterIndex = 0 ;
             _parameterValue = null ;
 
-            _createdParameters = new object [ ]
-                                 {
-                                     new TestClass ( 0 ) ,
-                                     Substitute.For < ISomething > ( ) ,
-                                     "Text" ,
-                                     0
-                                 } ;
+            _createdParameters =
+            [
+                new TestClass ( 0 ) ,
+                Substitute.For < ISomething > ( ) ,
+                "Text" ,
+                0
+            ] ;
 
             _creator.Create ( Arg.Any < IEnumerable < IParameterInfo > > ( ) )
                     .Returns ( _createdParameters ) ;

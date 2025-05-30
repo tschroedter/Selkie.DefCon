@@ -41,11 +41,10 @@ namespace Selkie.DefCon.One.Arguments
         {
             var methodCall = Expression.Call ( Expression.Constant ( this ) ,
                                                FactoryMethod ,
-                                               new Expression [ ]
-                                               {
+                                               [
                                                    Expression.Constant ( generator ) ,
                                                    Expression.Constant ( type )
-                                               } ) ;
+                                               ] ) ;
 
             var cast = Expression.Convert ( methodCall ,
                                             type ) ;

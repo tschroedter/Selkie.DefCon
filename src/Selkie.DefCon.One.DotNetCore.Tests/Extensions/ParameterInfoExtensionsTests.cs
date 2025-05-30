@@ -14,10 +14,9 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Extensions
             var expected = "System.Int32 value" ;
 
             // ReSharper disable once PossibleNullReferenceException
-            var parameters = typeof ( TestClass ).GetConstructor ( new [ ]
-                                                                   {
+            var parameters = typeof ( TestClass ).GetConstructor ( [
                                                                        typeof ( int )
-                                                                   } )
+                                                                   ] )
                                                  .GetParameters ( ) ;
 
             parameters [ 0 ]
@@ -35,11 +34,10 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Extensions
                            "Selkie.DefCon.One.DotNetCore.Tests.Common.ISomething something" ;
 
             // ReSharper disable once PossibleNullReferenceException
-            var parameters = typeof ( TestClassWithAttribute ).GetConstructor ( new [ ]
-                                                                                   {
-                                                                                       typeof ( int ) ,
-                                                                                       typeof ( ISomething )
-                                                                                   } )
+            var parameters = typeof ( TestClassWithAttribute ).GetConstructor ( [
+                                                                                    typeof ( int ) ,
+                                                                                    typeof ( ISomething )
+                                                                                ] )
                                                               .GetParameters ( ) ;
 
 
@@ -55,10 +53,9 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Extensions
             var expected = "System.Int32 value" ;
 
             // ReSharper disable once PossibleNullReferenceException
-            var parameters = typeof ( TestClass ).GetConstructor ( new [ ]
-                                                                   {
+            var parameters = typeof ( TestClass ).GetConstructor ( [
                                                                        typeof ( int )
-                                                                   } )
+                                                                   ] )
                                                  .GetParameters ( ) ;
 
             parameters.ToText ( )
@@ -75,11 +72,10 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Extensions
                            "Selkie.DefCon.One.DotNetCore.Tests.Common.ISomething something" ;
 
             // ReSharper disable once PossibleNullReferenceException
-            var parameters = typeof ( TestClassWithAttribute ).GetConstructor ( new [ ]
-                                                                                   {
-                                                                                       typeof ( int ) ,
-                                                                                       typeof ( ISomething )
-                                                                                   } )
+            var parameters = typeof ( TestClassWithAttribute ).GetConstructor ( [
+                                                                                    typeof ( int ) ,
+                                                                                    typeof ( ISomething )
+                                                                                ] )
                                                               .GetParameters ( ) ;
 
             parameters.ToText ( )

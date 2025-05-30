@@ -58,8 +58,7 @@ namespace Selkie.DefCon.One.Constructor
 
             while ( baseType != null )
             {
-                if ( baseType.BaseType          != null &&
-                     baseType.BaseType.FullName != null &&
+                if ( baseType.BaseType is { FullName: not null } &&
                      baseType.BaseType.FullName.Contains ( "System.MulticastDelegate" ) )
                     return true ; // todo log ignored delegate
 

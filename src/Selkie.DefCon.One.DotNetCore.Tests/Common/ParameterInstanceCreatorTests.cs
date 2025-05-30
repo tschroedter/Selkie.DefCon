@@ -28,7 +28,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
             _type = null ;
 
             Action action = ( ) => CreateSut ( )
-                               .Create ( _type ) ;
+                               .Create ( _type! ) ;
 
             action.Should ( )
                   .Throw < ArgumentNullException > ( )
@@ -60,14 +60,9 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
             return new ParameterInstanceCreator ( ) ;
         }
 
-        public class TestClassWithDependencyOnClassNoPublicConstructor
+        public class TestClassWithDependencyOnClassNoPublicConstructor ( TestClassWithNoPublicConstructor @class )
         {
-            [ UsedImplicitly ] private readonly TestClassWithNoPublicConstructor _class ;
-
-            public TestClassWithDependencyOnClassNoPublicConstructor ( TestClassWithNoPublicConstructor @class )
-            {
-                _class = @class ;
-            }
+            [ UsedImplicitly ] private readonly TestClassWithNoPublicConstructor _class = @class ;
         }
 
         public class TestClassWithNoPublicConstructor

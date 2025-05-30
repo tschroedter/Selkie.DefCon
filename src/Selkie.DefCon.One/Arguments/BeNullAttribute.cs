@@ -2,7 +2,8 @@
 
 namespace Selkie.DefCon.One.Arguments
 {
-    [ AttributeUsage ( AttributeTargets.Parameter ) ]
+    // ReSharper disable once RedundantTypeDeclarationBody
+    [AttributeUsage ( AttributeTargets.Parameter ) ]
     public class BeNullAttribute : Attribute
     {
     }

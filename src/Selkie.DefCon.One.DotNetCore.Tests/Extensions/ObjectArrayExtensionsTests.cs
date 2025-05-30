@@ -23,25 +23,25 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Extensions
             _typeOne = typeof ( TestClass ) ;
             _typeTwo = typeof ( TestClassWithInterface ) ;
 
-            _types = new [ ]
-                     {
-                         null ,
-                         _typeOne ,
-                         _typeTwo
-                     } ;
+            _types =
+            [
+                null ,
+                _typeOne ,
+                _typeTwo
+            ] ;
 
             _parameterInfo = typeof ( TestClass ).GetConstructors ( )
                                                  .First ( )
                                                  .GetParameters ( )
                                                  .First ( ) ;
 
-            _objects = new object [ ]
-                       {
-                           null ,
-                           _typeOne ,
-                           _typeTwo ,
-                           _parameterInfo
-                       } ;
+            _objects =
+            [
+                null ,
+                _typeOne ,
+                _typeTwo ,
+                _parameterInfo
+            ] ;
         }
 
         [ TestMethod ]

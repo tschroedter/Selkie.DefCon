@@ -51,7 +51,7 @@ namespace Selkie.DefCon.One.Arguments
             var infos = parameterInfos as IParameterInfo [ ] ?? parameterInfos.ToArray ( ) ;
 
             return infos.Length == 0
-                       ? Array.Empty < object > ( )
+                       ? []
                        : CreateArguments ( infos ) ;
         }
 

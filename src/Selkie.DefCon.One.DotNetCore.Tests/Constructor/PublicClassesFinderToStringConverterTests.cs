@@ -28,7 +28,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
             _finder = null ;
 
             Action action = ( ) => CreateSut ( )
-                               .Convert ( _finder ) ;
+                               .Convert ( _finder! ) ;
 
             action.Should ( )
                   .Throw < ArgumentNullException > ( )

@@ -2,13 +2,8 @@
 
 namespace Selkie.DefCon.One.DotNetCore.Tests.Common
 {
-    public class TestClass
+    public class TestClass ( int value )
     {
-        [ UsedImplicitly ] private readonly int _value ;
-
-        public TestClass ( int value )
-        {
-            _value = value ;
-        }
+        [ UsedImplicitly ] private readonly int _value = value ;
     }
 }

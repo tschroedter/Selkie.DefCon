@@ -6,17 +6,11 @@ using Selkie.DefCon.One.Common ;
 namespace Selkie.DefCon.One.DotNetCore.Tests.Common
 {
     // todo implement TestIgnore
-    public class TestClassWithAttribute
+    [ method : UsedImplicitly ]
+    public class TestClassWithAttribute ( [ GuardIgnore ] int value ,
+                                          [ GuardIgnore ] ISomething something )
     {
-        private readonly ISomething _something ;
-        private readonly int        _value ;
-
-        [ UsedImplicitly ]
-        public TestClassWithAttribute ( [ GuardIgnore ] int        value ,
-                                        [ GuardIgnore ] ISomething something )
-        {
-            _value     = value ;
-            _something = something ;
-        }
+        [UsedImplicitly] public int Value { get ; } = value ;
+        [UsedImplicitly] public ISomething Something { get ; } = something ;
     }
 }

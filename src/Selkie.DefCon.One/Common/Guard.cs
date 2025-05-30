@@ -57,8 +57,7 @@ namespace Selkie.DefCon.One.Common
             ArgumentNotNull ( parameter ,
                               parameterName ) ;
 
-            if ( parameter is string text &&
-                 text.Length == 0 )
+            if ( parameter is string { Length: 0 } )
                 throw new ArgumentException ( "Value cannot be empty" ,
                                               parameterName ) ;
         }

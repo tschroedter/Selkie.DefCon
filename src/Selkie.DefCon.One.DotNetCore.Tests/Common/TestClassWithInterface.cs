@@ -1,23 +1,23 @@
 ﻿// ReSharper disable NotAccessedField.Local
 
-namespace Selkie.DefCon.One.DotNetCore.Tests.Common
-{
-    public class TestClassWithInterface
-    {
-        private readonly ISomething _something ;
-        private readonly TestClass  _testClass ;
-        private readonly string     _text ;
-        private readonly int        _value ;
+using JetBrains.Annotations ;
 
-        public TestClassWithInterface ( TestClass  testClass ,
-                                        ISomething something ,
-                                        string     text ,
-                                        int        value )
-        {
-            _testClass = testClass ;
-            _something = something ;
-            _text      = text ;
-            _value     = value ;
-        }
-    }
+namespace Selkie.DefCon.One.DotNetCore.Tests.Common ;
+
+public class TestClassWithInterface ( TestClass testClass ,
+                                      ISomething something ,
+                                      string text ,
+                                      int value )
+{
+    [ UsedImplicitly ]
+    public TestClass TestClass { get ; } = testClass ;
+
+    [ UsedImplicitly ]
+    public ISomething Something { get ; } = something ;
+
+    [ UsedImplicitly ]
+    public string Text { get ; } = text ;
+
+    [ UsedImplicitly ]
+    public int Value { get ; } = value ;
 }

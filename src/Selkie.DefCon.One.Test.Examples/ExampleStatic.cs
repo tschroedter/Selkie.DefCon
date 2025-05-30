@@ -3,7 +3,8 @@ using JetBrains.Annotations ;
 
 namespace Selkie.DefCon.One.Test.Examples
 {
-    [ ExcludeFromCodeCoverage ]
+    // ReSharper disable once RedundantTypeDeclarationBody
+    [ExcludeFromCodeCoverage ]
     [ UsedImplicitly ]
     public static class ExampleStatic
     {

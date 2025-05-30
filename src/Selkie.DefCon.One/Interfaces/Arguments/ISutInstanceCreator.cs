@@ -3,8 +3,7 @@
     /// <summary>
     ///     This interface creates the requested type.
     /// </summary>
+    // ReSharper disable once RedundantTypeDeclarationBody
     public interface ISutInstanceCreator
-        : ICreator
-    {
-    }
+        : ICreator ;
 }

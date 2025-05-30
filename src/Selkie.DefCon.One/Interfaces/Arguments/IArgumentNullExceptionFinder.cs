@@ -6,8 +6,8 @@ namespace Selkie.DefCon.One.Interfaces.Arguments
     /// <summary>
     ///     This class tries to find a 'hidden' <see cref="ArgumentNullException" />
     ///     in the given exception and its inner exceptions. The dynamic creation
-    ///     can fail and throw general exception hiding the real reason in inner-
-    ///     exceptions. This calls tries to locate certain 'hidden' exceptions.
+    ///     can fail and throw general exception hiding the real reason in
+    ///     inner-exceptions. This calls tries to locate certain 'hidden' exceptions.
     /// </summary>
     public interface IArgumentNullExceptionFinder
     {

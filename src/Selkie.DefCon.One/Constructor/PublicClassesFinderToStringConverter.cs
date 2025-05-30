@@ -8,7 +8,7 @@ namespace Selkie.DefCon.One.Constructor
     public class PublicClassesFinderToStringConverter
         : IPublicClassesFinderToStringConverter
     {
-        private readonly StringBuilder _builder = new StringBuilder ( ) ;
+        private readonly StringBuilder _builder = new ( ) ;
 
         public string Convert ( IPublicClassesFinder finder )
         {

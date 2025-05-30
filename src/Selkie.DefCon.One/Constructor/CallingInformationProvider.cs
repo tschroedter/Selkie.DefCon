@@ -13,10 +13,10 @@ namespace Selkie.DefCon.One.Constructor
     public class CallingInformationProvider
         : ICallingInformationProvider
     {
-        private static readonly CallingInformation [ ] Empty = new CallingInformation[ 0 ] ;
+        private static readonly CallingInformation [ ] Empty = [] ;
 
         private readonly List < ConstructorInfo > _constructorsToTest =
-            new List < ConstructorInfo > ( ) ;
+            [] ;
 
         private readonly ILogger _logger ;
 

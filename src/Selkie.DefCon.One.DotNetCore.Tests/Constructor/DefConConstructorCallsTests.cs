@@ -27,9 +27,9 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
         public void Add_ForOneFailingCallForOneConstructorInfo_AddsEntryToCreatedList ( )
         {
             DefConConstructorInfo [ ] failed =
-            {
+            [
                 _infoOne
-            } ;
+            ] ;
 
             var key = _infoOne.ConstructorInfo.ToText ( ) ;
 
@@ -43,9 +43,9 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
         public void Add_ForOneFailingCallForOneConstructorInfo_CreatesList ( )
         {
             DefConConstructorInfo [ ] failed =
-            {
+            [
                 _infoOne
-            } ;
+            ] ;
 
             CreateSut ( )
                .Add ( failed )
@@ -58,10 +58,10 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
         public void Add_ForTwoDifferentClasses_AddsEntriesToCreatedLists ( )
         {
             DefConConstructorInfo [ ] failed =
-            {
+            [
                 _infoOne ,
                 _infoOther
-            } ;
+            ] ;
 
             var actual = CreateSut ( )
                .Add ( failed ) ;
@@ -72,19 +72,17 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
 
                 actual [ key ]
                    .Should ( )
-                   .BeEquivalentTo ( new [ ]
-                                     {
+                   .BeEquivalentTo ( [
                                          _infoOne
-                                     } ) ;
+                                     ] ) ;
 
                 var keyOther = _infoOther.ConstructorInfo.ToText ( ) ;
 
                 actual [ keyOther ]
                    .Should ( )
-                   .BeEquivalentTo ( new [ ]
-                                     {
+                   .BeEquivalentTo ( [
                                          _infoOther
-                                     } ) ;
+                                     ] ) ;
             }
         }
 
@@ -92,10 +90,10 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
         public void Add_ForTwoDifferentClasses_AddsInfos ( )
         {
             DefConConstructorInfo [ ] failed =
-            {
+            [
                 _infoOne ,
                 _infoOther
-            } ;
+            ] ;
 
             CreateSut ( )
                .Add ( failed )
@@ -108,10 +106,10 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
         public void Add_ForTwoDifferentConstructorInfoInstances_AddsInfos ( )
         {
             DefConConstructorInfo [ ] failed =
-            {
+            [
                 _infoOne ,
                 _infoOther
-            } ;
+            ] ;
 
             CreateSut ( )
                .Add ( failed )
@@ -124,10 +122,10 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
         public void Add_ForTwoFailingCallForConstructorInfo_AddsInfos ( )
         {
             DefConConstructorInfo [ ] failed =
-            {
+            [
                 _infoOne ,
                 _infoTwo
-            } ;
+            ] ;
 
             CreateSut ( )
                .Add ( failed )
@@ -140,10 +138,10 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
         public void Add_ForTwoFailingCallForOneConstructorInfo_AddsEntriesToCreatedList ( )
         {
             DefConConstructorInfo [ ] failed =
-            {
+            [
                 _infoOne ,
                 _infoTwo
-            } ;
+            ] ;
 
             var key = _infoOne.ConstructorInfo.ToText ( ) ;
 
@@ -157,9 +155,9 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
         public void Clear_ForInvoked_EmptyList ( )
         {
             DefConConstructorInfo [ ] failed =
-            {
+            [
                 _infoOne
-            } ;
+            ] ;
 
             CreateSut ( )
                .Add ( failed )

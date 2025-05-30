@@ -11,8 +11,7 @@ namespace Selkie.DefCon.One.Constructor
     public class FailedConstructorCalls
         : IFailedConstructorCalls
     {
-        private readonly Dictionary < string , List < DefConConstructorInfo > > _dictionary =
-            new Dictionary < string , List < DefConConstructorInfo > > ( ) ;
+        private readonly Dictionary < string , List < DefConConstructorInfo > > _dictionary = new ( ) ;
 
         private readonly ILogger _logger ;
 
@@ -35,7 +34,7 @@ namespace Selkie.DefCon.One.Constructor
                 if ( ! _dictionary.TryGetValue ( key ,
                                                  out var list ) )
                 {
-                    list = new List < DefConConstructorInfo > ( ) ;
+                    list = [] ;
 
                     _dictionary [ key ] = list ;
 

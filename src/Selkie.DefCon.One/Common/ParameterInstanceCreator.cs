@@ -20,7 +20,7 @@ namespace Selkie.DefCon.One.Common
 
             if ( HasDefaultConstructor ( parameterType ) ||
                  parameterType.IsValueType )
-                return Activator.CreateInstance ( parameterType ) ;
+                return CreateInstance ( parameterType ) ;
 
             return CreateInstanceForReferenceType ( parameterType ) ;
         }
@@ -37,11 +37,10 @@ namespace Selkie.DefCon.One.Common
             if ( parameterType.IsInterface   ||
                  parameterType.IsGenericType ||
                  parameterType == typeof ( Delegate ) )
-                return Substitute.For ( new [ ]
-                                        {
+                return Substitute.For ( [
                                             parameterType
-                                        } ,
-                                        new object[ 0 ] ) ;
+                                        ] ,
+                                        [] ) ;
 
             return parameterType == typeof ( string )
                        ? IgnoreMe
@@ -66,6 +65,16 @@ namespace Selkie.DefCon.One.Common
             return parameterType.GetConstructors ( BindingFlags.Default )
                                 .Length ==
                    1 ;
+        }
+
+        private static object CreateInstance(Type parameterType)
+        {
+            var instance = Activator.CreateInstance(parameterType);
+
+            if (instance == null)
+                throw new InvalidOperationException($"Failed to create instance of type {parameterType.FullName}");
+
+            return instance;
         }
 
         private object CreateInstanceForReferenceType ( Type parameterType )

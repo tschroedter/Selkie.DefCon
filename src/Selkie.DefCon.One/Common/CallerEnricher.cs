@@ -12,9 +12,11 @@ namespace Selkie.DefCon.One.Common
                              ILogEventPropertyFactory propertyFactory )
         {
             var skip = 3 ;
+
             while ( true )
             {
                 var stack = new StackFrame ( skip ) ;
+
                 if ( ! stack.HasMethod ( ) )
                 {
                     logEvent.AddPropertyIfAbsent ( new LogEventProperty ( "Caller" ,

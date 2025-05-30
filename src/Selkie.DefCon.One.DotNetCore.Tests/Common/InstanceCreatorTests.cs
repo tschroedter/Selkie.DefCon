@@ -39,7 +39,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
                                .ConstructionThrows ( _type ,
                                                      _parameterTypes ,
                                                      _parameterValues ,
-                                                     _exceptionType ) ;
+                                                     _exceptionType! ) ;
 
             action.Should ( )
                   .Throw < ArgumentNullException > ( )
@@ -53,7 +53,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
             _type = null ;
 
             Action action = ( ) => CreateSut ( )
-                               .ConstructionThrows ( _type ,
+                               .ConstructionThrows ( _type! ,
                                                      _parameterTypes ,
                                                      _parameterValues ,
                                                      _exceptionType ) ;
@@ -85,7 +85,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
 
             Action action = ( ) => CreateSut ( )
                                .ConstructionThrows ( _type ,
-                                                     _parameterTypes ,
+                                                     _parameterTypes! ,
                                                      _parameterValues ,
                                                      _exceptionType ) ;
 
@@ -103,7 +103,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
             Action action = ( ) => CreateSut ( )
                                .ConstructionThrows ( _type ,
                                                      _parameterTypes ,
-                                                     _parameterValues ,
+                                                     _parameterValues! ,
                                                      _exceptionType ) ;
 
             action.Should ( )
@@ -141,7 +141,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
         [ TestMethod ]
         public void Create_ForNoConstructorForParameterTypes_Throws ( )
         {
-            _parameterTypes = new [ ] { typeof ( object ) } ;
+            _parameterTypes = [typeof ( object )] ;
 
             CreateSut ( )
                .ConstructionThrows ( _type ,
@@ -165,13 +165,13 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
                                                                        .Select ( x => x.ParameterType )
                                                                        .ToArray ( ) ;
 
-            _parameterValues = new object [ ]
-                               {
-                                   new TestClass ( 0 ) ,
-                                   Substitute.For < ISomething > ( ) ,
-                                   "Text" ,
-                                   0
-                               } ;
+            _parameterValues =
+            [
+                new TestClass ( 0 ) ,
+                Substitute.For < ISomething > ( ) ,
+                "Text" ,
+                0
+            ] ;
 
             _exceptionType = typeof ( ArgumentNullException ) ;
         }

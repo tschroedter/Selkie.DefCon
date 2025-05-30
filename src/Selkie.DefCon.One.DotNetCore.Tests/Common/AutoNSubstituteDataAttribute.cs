@@ -8,11 +8,6 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
 {
     [ ExcludeFromCodeCoverage ]
     [ UsedImplicitly ]
-    public class AutoNSubstituteDataAttribute : DataRowAttribute
-    {
-        public AutoNSubstituteDataAttribute ( )
-            : base ( new Fixture ( ).Customize ( new AutoNSubstituteCustomization ( ) ) )
-        {
-        }
-    }
+    public class AutoNSubstituteDataAttribute ( ) : 
+        DataRowAttribute ( new Fixture ( ).Customize ( new AutoNSubstituteCustomization ( ) ) ) ;
 }

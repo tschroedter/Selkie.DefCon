@@ -15,6 +15,7 @@ namespace Selkie.DefCon.One.Test.Examples
         }
     }
 
+    // ReSharper disable once RedundantTypeDeclarationBody
     public interface IDateTimeOffset
     {
     }

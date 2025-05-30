@@ -14,7 +14,7 @@ namespace Selkie.DefCon.One.Constructor
     public class ConstructorInfoProvider
         : IConstructorInfoProvider
     {
-        private static readonly ConstructorInfo [ ] Empty = new ConstructorInfo[ 0 ] ;
+        private static readonly ConstructorInfo [ ] Empty = [] ;
 
         private readonly ILogger _logger ;
 

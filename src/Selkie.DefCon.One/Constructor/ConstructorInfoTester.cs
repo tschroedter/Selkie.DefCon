@@ -14,8 +14,8 @@ namespace Selkie.DefCon.One.Constructor
     public class ConstructorInfoTester
         : IConstructorInfoTester
     {
-        private readonly List < DefConConstructorInfo > _failed  = new List < DefConConstructorInfo > ( ) ;
-        private readonly List < DefConConstructorInfo > _ignored = new List < DefConConstructorInfo > ( ) ;
+        private readonly List < DefConConstructorInfo > _failed  = [] ;
+        private readonly List < DefConConstructorInfo > _ignored = [] ;
 
         [ NotNull ] private readonly ILogger _logger ;
 

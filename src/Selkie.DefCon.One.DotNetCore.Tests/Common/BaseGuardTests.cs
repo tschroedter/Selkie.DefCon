@@ -10,7 +10,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
         public const string Empty      = "" ;
         public const string Whitespace = " " ;
 
-        private static readonly object Instance = new object ( ) ;
+        private static readonly object Instance = new ( ) ;
         private static readonly int    Integer  = 1 ;
 
         public static void AssertException ( Action action ,
@@ -35,61 +35,61 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common
 
         public static IEnumerable < object [ ] > InstanceAndInteger ( )
         {
-            yield return new [ ]
-                         {
-                             Instance
-                         } ;
-            yield return new object [ ]
-                         {
-                             Integer
-                         } ;
+            yield return
+            [
+                Instance
+            ] ;
+            yield return
+            [
+                Integer
+            ] ;
         }
 
         public static IEnumerable < object [ ] > NullEmptyOrWhitespace ( )
         {
-            yield return new object [ ]
-                         {
-                             null ,
-                             typeof ( ArgumentNullException )
-                         } ;
-            yield return new object [ ]
-                         {
-                             Empty ,
-                             typeof ( ArgumentException )
-                         } ;
-            yield return new object [ ]
-                         {
-                             Whitespace ,
-                             typeof ( ArgumentException )
-                         } ;
+            yield return
+            [
+                null ,
+                typeof ( ArgumentNullException )
+            ] ;
+            yield return
+            [
+                Empty ,
+                typeof ( ArgumentException )
+            ] ;
+            yield return
+            [
+                Whitespace ,
+                typeof ( ArgumentException )
+            ] ;
         }
 
         public static IEnumerable < object [ ] > NullOrEmpty ( )
         {
-            yield return new object [ ]
-                         {
-                             null ,
-                             typeof ( ArgumentNullException )
-                         } ;
-            yield return new object [ ]
-                         {
-                             Empty ,
-                             typeof ( ArgumentException )
-                         } ;
+            yield return
+            [
+                null ,
+                typeof ( ArgumentNullException )
+            ] ;
+            yield return
+            [
+                Empty ,
+                typeof ( ArgumentException )
+            ] ;
         }
 
         public static IEnumerable < object [ ] > NotNegative ( )
         {
-            yield return new object [ ]
-                         {
-                             - 1 ,
-                             typeof ( ArgumentException )
-                         } ;
-            yield return new object [ ]
-                         {
-                             - 2 ,
-                             typeof ( ArgumentException )
-                         } ;
+            yield return
+            [
+                - 1 ,
+                typeof ( ArgumentException )
+            ] ;
+            yield return
+            [
+                - 2 ,
+                typeof ( ArgumentException )
+            ] ;
         }
     }
 }
