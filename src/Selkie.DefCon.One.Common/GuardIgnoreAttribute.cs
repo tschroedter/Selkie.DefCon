@@ -1,9 +1,8 @@
 ﻿using System ;
 
-namespace Selkie.DefCon.One.Common
+namespace Selkie.DefCon.One.Common ;
+
+// ReSharper disable once RedundantTypeDeclarationBody
+public class GuardIgnoreAttribute : Attribute
 {
-    // ReSharper disable once RedundantTypeDeclarationBody
-    public class GuardIgnoreAttribute : Attribute
-    {
-    }
 }

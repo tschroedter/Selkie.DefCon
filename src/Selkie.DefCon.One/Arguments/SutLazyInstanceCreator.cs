@@ -5,71 +5,72 @@ using JetBrains.Annotations ;
 using Selkie.DefCon.One.Common ;
 using Selkie.DefCon.One.Interfaces.Arguments ;
 
-namespace Selkie.DefCon.One.Arguments
+namespace Selkie.DefCon.One.Arguments ;
+
+public class SutLazyInstanceCreator
+    : ISutLazyInstanceCreator
 {
-    public class SutLazyInstanceCreator
-        : ISutLazyInstanceCreator
+    private static readonly MethodInfo FactoryMethod =
+        typeof ( SutLazyInstanceCreator ).GetMethod ( nameof ( Factory ) ,
+                                                      BindingFlags.Instance | BindingFlags.NonPublic ) ;
+
+    private readonly IArgumentNullExceptionFinder _finder ;
+
+    public SutLazyInstanceCreator ( [ NotNull ] IArgumentNullExceptionFinder finder )
     {
-        private static readonly MethodInfo FactoryMethod =
-            typeof ( SutLazyInstanceCreator ).GetMethod ( nameof ( Factory ) ,
-                                                          BindingFlags.Instance | BindingFlags.NonPublic ) ;
+        Guard.ArgumentNotNull ( finder ,
+                                nameof ( finder ) ) ;
 
-        private readonly IArgumentNullExceptionFinder _finder ;
+        _finder = finder ;
+    }
 
-        public SutLazyInstanceCreator ( [ NotNull ] IArgumentNullExceptionFinder finder )
+    public object Construct ( IArgumentsGenerator generator ,
+                              Type                type )
+    {
+        Guard.ArgumentNotNull ( generator ,
+                                nameof ( generator ) ) ;
+        Guard.ArgumentNotNull ( type ,
+                                nameof ( type ) ) ;
+
+        return CreateInstance ( generator ,
+                                type ) ;
+    }
+
+    private object CreateInstance ( IArgumentsGenerator generator ,
+                                    Type                type )
+    {
+        var methodCall = Expression.Call ( Expression.Constant ( this ) ,
+                                           FactoryMethod ,
+                                           [
+                                               Expression.Constant ( generator ) ,
+                                               Expression.Constant ( type )
+                                           ] ) ;
+
+        var cast = Expression.Convert ( methodCall ,
+                                        type ) ;
+
+        var lambda = Expression.Lambda ( cast ).Compile ( ) ;
+
+        var lazyType = typeof ( Lazy <> ).MakeGenericType ( type ) ;
+
+        return Activator.CreateInstance ( lazyType ,
+                                          lambda ) ;
+    }
+
+    private object Factory ( IArgumentsGenerator generator ,
+                             Type                type )
+    {
+        try
         {
-            Guard.ArgumentNotNull ( finder ,
-                                    nameof ( finder ) ) ;
-
-            _finder = finder ;
+            return generator.CreateArgument ( type ) ;
         }
-
-        public object Construct ( IArgumentsGenerator generator ,
-                                  Type                type )
+        catch ( Exception e )
         {
-            Guard.ArgumentNotNull ( generator ,
-                                    nameof ( generator ) ) ;
-            Guard.ArgumentNotNull ( type ,
-                                    nameof ( type ) ) ;
+            if ( ! _finder.TryFindArgumentNullException ( e ,
+                                                          out var nullException ) )
+                throw ;
 
-            return CreateInstance ( generator ,
-                                    type ) ;
-        }
-
-        private object CreateInstance ( IArgumentsGenerator generator ,
-                                        Type                type )
-        {
-            var methodCall = Expression.Call ( Expression.Constant ( this ) ,
-                                               FactoryMethod ,
-                                               [
-                                                   Expression.Constant ( generator ) ,
-                                                   Expression.Constant ( type )
-                                               ] ) ;
-
-            var cast = Expression.Convert ( methodCall ,
-                                            type ) ;
-
-            var lambda = Expression.Lambda ( cast ).Compile ( ) ;
-
-            var lazyType = typeof ( Lazy <> ).MakeGenericType ( type ) ;
-
-            return Activator.CreateInstance ( lazyType , lambda ) ;
-        }
-
-        private object Factory ( IArgumentsGenerator generator ,
-                                 Type                type )
-        {
-            try
-            {
-                return generator.CreateArgument ( type ) ;
-            }
-            catch ( Exception e )
-            {
-                if ( ! _finder.TryFindArgumentNullException ( e , out var nullException ) )
-                    throw ;
-
-                throw nullException ;
-            }
+            throw nullException ;
         }
     }
 }

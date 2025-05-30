@@ -11,12 +11,12 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor ;
 [ TestClass ]
 public class DefConConstructorInfoTests
 {
-    private ConstructorInfo _constructorInfo ;
-    private Type _exceptionType ;
-    private Type _instanceType ;
+    private ConstructorInfo   _constructorInfo ;
+    private Type              _exceptionType ;
+    private Type              _instanceType ;
     private ParameterInfo [ ] _parameterInfoArray ;
-    private int _testParameterIndex ;
-    private object _testParameterValue ;
+    private int               _testParameterIndex ;
+    private object            _testParameterValue ;
 
     [ TestMethod ]
     public void Constructor_ForConstructorInfoIsNull_Throws ( )
@@ -132,10 +132,10 @@ public class DefConConstructorInfoTests
 
         _parameterInfoArray = _constructorInfo.GetParameters ( ) ;
 
-        _instanceType = typeof ( TestClass ) ;
+        _instanceType       = typeof ( TestClass ) ;
         _testParameterValue = null ;
         _testParameterIndex = 0 ;
-        _exceptionType = typeof ( ArgumentNullException ) ;
+        _exceptionType      = typeof ( ArgumentNullException ) ;
     }
 
     private DefConConstructorInfo CreateSut ( )

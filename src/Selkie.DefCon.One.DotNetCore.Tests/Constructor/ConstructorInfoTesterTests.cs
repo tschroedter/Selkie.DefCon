@@ -7,52 +7,51 @@ using Selkie.DefCon.One.Constructor ;
 using Selkie.DefCon.One.Interfaces ;
 using Serilog ;
 
-namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
+namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor ;
+
+[ TestClass ]
+public class ConstructorInfoTesterTests
 {
-    [ TestClass ]
-    public class ConstructorInfoTesterTests
+    private ILogger                _logger ;
+    private ISingleParameterTester _tester ;
+
+    [ TestMethod ]
+    public void Constructor_ForLoggerIsNull_Throws ( )
     {
-        private ILogger                _logger ;
-        private ISingleParameterTester _tester ;
+        _logger = null ;
 
-        [ TestMethod ]
-        public void Constructor_ForLoggerIsNull_Throws ( )
-        {
-            _logger = null ;
+        Action action = ( ) => CreateSut ( ) ;
 
-            Action action = ( ) => CreateSut ( ) ;
+        action.Should ( )
+              .Throw < ArgumentNullException > ( )
+              .And.ParamName.Should ( )
+              .Be ( "logger" ) ;
+    }
 
-            action.Should ( )
-                  .Throw < ArgumentNullException > ( )
-                  .And.ParamName.Should ( )
-                  .Be ( "logger" ) ;
-        }
+    [ TestMethod ]
+    public void Constructor_ForTesterIsNull_Throws ( )
+    {
+        _tester = null ;
 
-        [ TestMethod ]
-        public void Constructor_ForTesterIsNull_Throws ( )
-        {
-            _tester = null ;
+        Action action = ( ) => CreateSut ( ) ;
 
-            Action action = ( ) => CreateSut ( ) ;
+        action.Should ( )
+              .Throw < ArgumentNullException > ( )
+              .And.ParamName.Should ( )
+              .Be ( "tester" ) ;
+    }
 
-            action.Should ( )
-                  .Throw < ArgumentNullException > ( )
-                  .And.ParamName.Should ( )
-                  .Be ( "tester" ) ;
-        }
+    [ TestInitialize ]
+    public void Setup ( )
+    {
+        _logger = Substitute.For < ILogger > ( ) ;
+        _tester = Substitute.For < ISingleParameterTester > ( ) ;
+    }
 
-        [ TestInitialize ]
-        public void Setup ( )
-        {
-            _logger = Substitute.For < ILogger > ( ) ;
-            _tester = Substitute.For < ISingleParameterTester > ( ) ;
-        }
-
-        [ UsedImplicitly ] // todo check if tests are missing, check test coverage
-        private ConstructorInfoTester CreateSut ( )
-        {
-            return new ConstructorInfoTester ( _logger ,
-                                               _tester ) ;
-        }
+    [ UsedImplicitly ] // todo check if tests are missing, check test coverage
+    private ConstructorInfoTester CreateSut ( )
+    {
+        return new ConstructorInfoTester ( _logger ,
+                                           _tester ) ;
     }
 }

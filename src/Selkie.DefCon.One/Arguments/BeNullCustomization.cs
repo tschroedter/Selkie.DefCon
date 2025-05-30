@@ -6,87 +6,87 @@ using System.Reflection ;
 using AutoFixture ;
 using AutoFixture.Kernel ;
 
-namespace Selkie.DefCon.One.Arguments
+namespace Selkie.DefCon.One.Arguments ;
+
+/// <summary>
+///     Customization that supports setting a registered type to be always
+///     null when resolved.
+/// </summary>
+[ ExcludeFromCodeCoverage ]
+public class BeNullCustomization
+    : ICustomization
 {
-    /// <summary>
-    ///     Customization that supports setting a registered type to be always
-    ///     null when resolved.
-    /// </summary>
-    [ ExcludeFromCodeCoverage ]
-    public class BeNullCustomization
-        : ICustomization
+    // todo testing
+    public BeNullCustomization ( Type targetType )
+        : this ( targetType ,
+                 targetType )
     {
-        // todo testing
-        public BeNullCustomization ( Type targetType )
-            : this ( targetType , targetType )
+    }
+
+    /// <summary>
+    ///     Set the given registered type to be always null.
+    /// </summary>
+    /// <param name="targetType"></param>
+    /// <param name="registeredType"></param>
+    public BeNullCustomization ( Type targetType ,
+                                 Type registeredType )
+    {
+        if ( targetType     == null ) throw new ArgumentNullException ( nameof ( targetType ) ) ;
+        if ( registeredType == null ) throw new ArgumentNullException ( nameof ( registeredType ) ) ;
+
+        if ( ! registeredType.GetTypeInfo ( ).IsAssignableFrom ( targetType ) )
         {
+            var message = string.Format (
+                                         CultureInfo.CurrentCulture ,
+                                         "The type '{0}' cannot be set to null as '{1}' because the two types are not compatible." ,
+                                         targetType ,
+                                         registeredType ) ;
+            throw new ArgumentException ( message ) ;
         }
 
-        /// <summary>
-        ///     Set the given registered type to be always null.
-        /// </summary>
-        /// <param name="targetType"></param>
-        /// <param name="registeredType"></param>
-        public BeNullCustomization ( Type targetType ,
-                                     Type registeredType )
-        {
-            if ( targetType     == null ) throw new ArgumentNullException ( nameof ( targetType ) ) ;
-            if ( registeredType == null ) throw new ArgumentNullException ( nameof ( registeredType ) ) ;
+        TargetType     = targetType ;
+        RegisteredType = registeredType ;
+    }
 
-            if ( ! registeredType.GetTypeInfo ( ).IsAssignableFrom ( targetType ) )
-            {
-                var message = string.Format (
-                                             CultureInfo.CurrentCulture ,
-                                             "The type '{0}' cannot be set to null as '{1}' because the two types are not compatible." ,
-                                             targetType ,
-                                             registeredType ) ;
-                throw new ArgumentException ( message ) ;
-            }
+    /// <summary>
+    ///     Gets the <see cref="Type" /> to freeze.
+    /// </summary>
+    public Type TargetType { get ; }
 
-            TargetType     = targetType ;
-            RegisteredType = registeredType ;
-        }
+    /// <summary>
+    ///     Gets the <see cref="Type" /> to which the frozen <see cref="TargetType" /> value
+    ///     should be mapped to. Defaults to the same <see cref="Type" /> as <see cref="TargetType" />.
+    /// </summary>
+    public Type RegisteredType { get ; }
 
-        /// <summary>
-        ///     Gets the <see cref="Type" /> to freeze.
-        /// </summary>
-        public Type TargetType { get ; }
+    /// <summary>
+    ///     Add the customization for a NullBuilder to the given <see cref="IFixture" />.
+    /// </summary>
+    /// <param name="fixture">
+    ///     The <see cref="IFixture" /> to be customized.
+    /// </param>
+    public void Customize ( IFixture fixture )
+    {
+        if ( fixture == null )
+            throw new ArgumentNullException ( nameof ( fixture ) ) ;
 
-        /// <summary>
-        ///     Gets the <see cref="Type" /> to which the frozen <see cref="TargetType" /> value
-        ///     should be mapped to. Defaults to the same <see cref="Type" /> as <see cref="TargetType" />.
-        /// </summary>
-        public Type RegisteredType { get ; }
+        var fixedBuilder = new NullBuilder ( ) ;
 
-        /// <summary>
-        ///     Add the customization for a NullBuilder to the given <see cref="IFixture" />.
-        /// </summary>
-        /// <param name="fixture">
-        ///     The <see cref="IFixture" /> to be customized.
-        /// </param>
-        public void Customize ( IFixture fixture )
-        {
-            if ( fixture == null )
-                throw new ArgumentNullException ( nameof ( fixture ) ) ;
+        var types = new [ ]
+                    {
+                        TargetType ,
+                        RegisteredType
+                    } ;
 
-            var fixedBuilder = new NullBuilder ( ) ;
+        var specimenBuilders = from t in types
+                               select SpecimenBuilderNodeFactory.CreateTypedNode ( t ,
+                                                                                   fixedBuilder )
+                                          as ISpecimenBuilder ;
 
-            var types = new [ ]
-                        {
-                            TargetType ,
-                            RegisteredType
-                        } ;
+        var builder = new CompositeSpecimenBuilder ( specimenBuilders ) ;
 
-            var specimenBuilders = from t in types
-                                   select SpecimenBuilderNodeFactory.CreateTypedNode ( t ,
-                                                  fixedBuilder )
-                                              as ISpecimenBuilder ;
-
-            var builder = new CompositeSpecimenBuilder ( specimenBuilders ) ;
-
-            fixture.Customizations
-                   .Insert ( 0 ,
-                             builder ) ;
-        }
+        fixture.Customizations
+               .Insert ( 0 ,
+                         builder ) ;
     }
 }

@@ -9,219 +9,220 @@ using Selkie.DefCon.One.Test.Examples ;
 using Serilog ;
 using Serilog.Events ;
 
-namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
+namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor ;
+
+[ TestClass ]
+public class NotNullTesterTests
 {
-    [ TestClass ]
-    public class NotNullTesterTests
+    private IContainer _container ;
+
+    [ TestCleanup ]
+    public void Cleanup ( )
     {
-        private IContainer _container ;
+        _container.Dispose ( ) ;
+    }
 
-        [ TestCleanup ]
-        public void Cleanup ( )
+    [ TestMethod ]
+    public void Constructor_ForAnyParameterNullThrows_AllPassing ( )
+    {
+        var sut = CreateSut ( ) ;
+
+        sut.Test < ExamplePassing > ( ) ;
+
+        using ( new AssertionScope ( ) )
         {
-            _container.Dispose ( ) ;
-        }
+            sut.HasPassed
+               .Should ( )
+               .BeTrue ( ) ;
 
-        [ TestMethod ]
-        public void Constructor_ForAnyParameterNullThrows_AllPassing ( )
-        {
-            var sut = CreateSut ( ) ;
+            sut.ConstructorsToTest
+               .Should ( )
+               .Be ( 6 ) ;
 
-            sut.Test < ExamplePassing > ( ) ;
-
-            using ( new AssertionScope ( ) )
-            {
-                sut.HasPassed
-                   .Should ( )
-                   .BeTrue ( ) ;
-
-                sut.ConstructorsToTest
-                   .Should ( )
-                   .Be ( 6 ) ;
-
-                sut.ConstructorsFailed
-                   .Should ( )
-                   .Be ( 0 ) ;
-            }
-        }
-
-        [ TestMethod ]
-        public void Constructor_ForAnyParameterNullThrows_AllFailing ( )
-        {
-            var sut = CreateSut ( ) ;
-
-            sut.Test < ExampleFalling > ( ) ;
-
-            using ( new AssertionScope ( ) )
-            {
-                sut.HasPassed
-                   .Should ( )
-                   .BeFalse ( ) ;
-
-                sut.ConstructorsToTest
-                   .Should ( )
-                   .Be ( 6 ) ;
-
-                sut.ConstructorsFailed
-                   .Should ( )
-                   .Be ( 6 ) ;
-            }
-        }
-
-        [ TestMethod ]
-        public void Constructor_ForAnyParameterNullAndIgnored_AllPassing ( )
-        {
-            var sut = CreateSut ( ) ;
-
-            sut.Test < ExamplePassingWithIgnore > ( ) ;
-
-            using ( new AssertionScope ( ) )
-            {
-                sut.HasPassed
-                   .Should ( )
-                   .BeTrue ( ) ;
-
-                sut.ConstructorsToTest
-                   .Should ( )
-                   .Be ( 1 ) ;
-
-                sut.ConstructorsFailed
-                   .Should ( )
-                   .Be ( 0 ) ;
-            }
-        }
-
-        [ TestMethod ]
-        public void Constructor_ForExamplePassingComplexAndAnyParameterNullThrows_AllPassing ( )
-        {
-            var sut = CreateSut ( ) ;
-
-            sut.Test < ExamplePassingComplex > ( ) ;
-
-            using ( new AssertionScope ( ) )
-            {
-                sut.HasPassed
-                   .Should ( )
-                   .BeTrue ( ) ;
-
-                sut.ConstructorsToTest
-                   .Should ( )
-                   .Be ( 1 ) ;
-
-                sut.ConstructorsFailed
-                   .Should ( )
-                   .Be ( 0 ) ;
-            }
-        }
-
-        [ TestMethod ]
-        public void Constructor_ForExamplePassingComplexDelegateAndAnyParameterNullThrows_AllPassing ( )
-        {
-            var sut = CreateSut ( ) ;
-
-            sut.Test < DeviceFactory > ( ) ;
-
-            using ( new AssertionScope ( ) )
-            {
-                sut.HasPassed
-                   .Should ( )
-                   .BeTrue ( ) ;
-
-                sut.ConstructorsToTest
-                   .Should ( )
-                   .Be ( 1 ) ;
-
-                sut.ConstructorsFailed
-                   .Should ( )
-                   .Be ( 0 ) ;
-            }
-        }
-
-        [ TestInitialize ]
-        public void Initialize ( )
-        {
-            const string template =
-                "[{Timestamp:HH:mm:ss.ffff} {Level:u3}] {Message}{NewLine}{Exception}" ;
-            // "[{Timestamp:HH:mm:ss.ffff} {Level:u3}] {Message} (at {Caller}){NewLine}{Exception}";
-
-            Log.Logger = new LoggerConfiguration ( )
-                        .Enrich.WithCaller ( )
-                        .MinimumLevel.Information ( )
-                        .WriteTo.Console ( LogEventLevel.Debug , template )
-                        .CreateLogger ( ) ;
-
-            var builder = new ContainerBuilder ( ) ;
-
-            builder.RegisterLogger ( ) ;
-            builder.RegisterModule < DefConOneModule > ( ) ;
-
-            _container = builder.Build ( ) ;
-        }
-
-        private INotNullTester CreateSut ( )
-        {
-            return _container.Resolve < INotNullTester > ( ) ;
+            sut.ConstructorsFailed
+               .Should ( )
+               .Be ( 0 ) ;
         }
     }
 
-    [ TestClass ]
-    public class AddNotNullTesterTests
+    [ TestMethod ]
+    public void Constructor_ForAnyParameterNullThrows_AllFailing ( )
     {
-        private IContainer _container ;
+        var sut = CreateSut ( ) ;
 
-        [ TestCleanup ]
-        public void Cleanup ( )
+        sut.Test < ExampleFalling > ( ) ;
+
+        using ( new AssertionScope ( ) )
         {
-            _container.Dispose ( ) ;
-        }
+            sut.HasPassed
+               .Should ( )
+               .BeFalse ( ) ;
 
-        [ TestMethod ]
-        public void Constructor_ForExamplePassingComplexDelegateAndAnyParameterNullThrows_AllPassing ( )
+            sut.ConstructorsToTest
+               .Should ( )
+               .Be ( 6 ) ;
+
+            sut.ConstructorsFailed
+               .Should ( )
+               .Be ( 6 ) ;
+        }
+    }
+
+    [ TestMethod ]
+    public void Constructor_ForAnyParameterNullAndIgnored_AllPassing ( )
+    {
+        var sut = CreateSut ( ) ;
+
+        sut.Test < ExamplePassingWithIgnore > ( ) ;
+
+        using ( new AssertionScope ( ) )
         {
-            var sut = CreateSut ( ) ;
+            sut.HasPassed
+               .Should ( )
+               .BeTrue ( ) ;
 
-            sut.Test < DeviceFactory > ( ) ;
+            sut.ConstructorsToTest
+               .Should ( )
+               .Be ( 1 ) ;
 
-            using ( new AssertionScope ( ) )
-            {
-                sut.HasPassed
-                   .Should ( )
-                   .BeTrue ( ) ;
-
-                sut.ConstructorsToTest
-                   .Should ( )
-                   .Be ( 1 ) ;
-
-                sut.ConstructorsFailed
-                   .Should ( )
-                   .Be ( 0 ) ;
-            }
+            sut.ConstructorsFailed
+               .Should ( )
+               .Be ( 0 ) ;
         }
+    }
 
-        [ TestInitialize ]
-        public void Initialize ( )
+    [ TestMethod ]
+    public void Constructor_ForExamplePassingComplexAndAnyParameterNullThrows_AllPassing ( )
+    {
+        var sut = CreateSut ( ) ;
+
+        sut.Test < ExamplePassingComplex > ( ) ;
+
+        using ( new AssertionScope ( ) )
         {
-            const string template =
-                "[{Timestamp:HH:mm:ss.ffff} {Level:u3}] {Message}{NewLine}{Exception}" ;
-            // "[{Timestamp:HH:mm:ss.ffff} {Level:u3}] {Message} (at {Caller}){NewLine}{Exception}";
+            sut.HasPassed
+               .Should ( )
+               .BeTrue ( ) ;
 
-            Log.Logger = new LoggerConfiguration ( )
-                        .Enrich.WithCaller ( )
-                        .MinimumLevel.Information ( )
-                        .WriteTo.Console ( LogEventLevel.Debug , template )
-                        .CreateLogger ( ) ;
+            sut.ConstructorsToTest
+               .Should ( )
+               .Be ( 1 ) ;
 
-            var builder = new ContainerBuilder ( ) ;
-
-            builder.RegisterLogger ( ) ;
-            builder.RegisterModule < DefConOneModule > ( ) ;
-
-            _container = builder.Build ( ) ;
+            sut.ConstructorsFailed
+               .Should ( )
+               .Be ( 0 ) ;
         }
+    }
 
-        private INotNullTester CreateSut ( )
+    [ TestMethod ]
+    public void Constructor_ForExamplePassingComplexDelegateAndAnyParameterNullThrows_AllPassing ( )
+    {
+        var sut = CreateSut ( ) ;
+
+        sut.Test < DeviceFactory > ( ) ;
+
+        using ( new AssertionScope ( ) )
         {
-            return _container.Resolve < INotNullTester > ( ) ;
+            sut.HasPassed
+               .Should ( )
+               .BeTrue ( ) ;
+
+            sut.ConstructorsToTest
+               .Should ( )
+               .Be ( 1 ) ;
+
+            sut.ConstructorsFailed
+               .Should ( )
+               .Be ( 0 ) ;
         }
+    }
+
+    [ TestInitialize ]
+    public void Initialize ( )
+    {
+        const string template =
+            "[{Timestamp:HH:mm:ss.ffff} {Level:u3}] {Message}{NewLine}{Exception}" ;
+        // "[{Timestamp:HH:mm:ss.ffff} {Level:u3}] {Message} (at {Caller}){NewLine}{Exception}";
+
+        Log.Logger = new LoggerConfiguration ( )
+                    .Enrich.WithCaller ( )
+                    .MinimumLevel.Information ( )
+                    .WriteTo.Console ( LogEventLevel.Debug ,
+                                       template )
+                    .CreateLogger ( ) ;
+
+        var builder = new ContainerBuilder ( ) ;
+
+        builder.RegisterLogger ( ) ;
+        builder.RegisterModule < DefConOneModule > ( ) ;
+
+        _container = builder.Build ( ) ;
+    }
+
+    private INotNullTester CreateSut ( )
+    {
+        return _container.Resolve < INotNullTester > ( ) ;
+    }
+}
+
+[ TestClass ]
+public class AddNotNullTesterTests
+{
+    private IContainer _container ;
+
+    [ TestCleanup ]
+    public void Cleanup ( )
+    {
+        _container.Dispose ( ) ;
+    }
+
+    [ TestMethod ]
+    public void Constructor_ForExamplePassingComplexDelegateAndAnyParameterNullThrows_AllPassing ( )
+    {
+        var sut = CreateSut ( ) ;
+
+        sut.Test < DeviceFactory > ( ) ;
+
+        using ( new AssertionScope ( ) )
+        {
+            sut.HasPassed
+               .Should ( )
+               .BeTrue ( ) ;
+
+            sut.ConstructorsToTest
+               .Should ( )
+               .Be ( 1 ) ;
+
+            sut.ConstructorsFailed
+               .Should ( )
+               .Be ( 0 ) ;
+        }
+    }
+
+    [ TestInitialize ]
+    public void Initialize ( )
+    {
+        const string template =
+            "[{Timestamp:HH:mm:ss.ffff} {Level:u3}] {Message}{NewLine}{Exception}" ;
+        // "[{Timestamp:HH:mm:ss.ffff} {Level:u3}] {Message} (at {Caller}){NewLine}{Exception}";
+
+        Log.Logger = new LoggerConfiguration ( )
+                    .Enrich.WithCaller ( )
+                    .MinimumLevel.Information ( )
+                    .WriteTo.Console ( LogEventLevel.Debug ,
+                                       template )
+                    .CreateLogger ( ) ;
+
+        var builder = new ContainerBuilder ( ) ;
+
+        builder.RegisterLogger ( ) ;
+        builder.RegisterModule < DefConOneModule > ( ) ;
+
+        _container = builder.Build ( ) ;
+    }
+
+    private INotNullTester CreateSut ( )
+    {
+        return _container.Resolve < INotNullTester > ( ) ;
     }
 }

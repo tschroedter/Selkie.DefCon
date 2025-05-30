@@ -8,54 +8,53 @@ using Selkie.DefCon.One.Common ;
 using Selkie.DefCon.One.Interfaces ;
 using Serilog ;
 
-namespace Selkie.DefCon.One.Constructor
+namespace Selkie.DefCon.One.Constructor ;
+
+[ UsedImplicitly ]
+public class ConstructorInfoProvider
+    : IConstructorInfoProvider
 {
-    [ UsedImplicitly ]
-    public class ConstructorInfoProvider
-        : IConstructorInfoProvider
+    private static readonly ConstructorInfo [ ] Empty = [] ;
+
+    private readonly ILogger _logger ;
+
+    private ConstructorInfo [ ] _constructors = Empty ;
+
+    public ConstructorInfoProvider ( [ NotNull ] ILogger logger )
     {
-        private static readonly ConstructorInfo [ ] Empty = [] ;
+        Guard.ArgumentNotNull ( logger ,
+                                nameof ( logger ) ) ;
 
-        private readonly ILogger _logger ;
+        _logger = logger ;
+    }
 
-        private ConstructorInfo [ ] _constructors = Empty ;
+    public int Length => _constructors.Length ;
+    public ConstructorInfo this [ int index ] => _constructors [ index ] ;
 
-        public ConstructorInfoProvider ( [ NotNull ] ILogger logger )
-        {
-            Guard.ArgumentNotNull ( logger ,
-                                    nameof ( logger ) ) ;
+    public Type Type { get ; private set ; } = typeof ( object ) ;
 
-            _logger = logger ;
-        }
+    public IConstructorInfoProvider SetType ( Type type )
+    {
+        Guard.ArgumentNotNull ( type ,
+                                nameof ( type ) ) ;
 
-        public int Length => _constructors.Length ;
-        public ConstructorInfo this [ int index ] => _constructors [ index ] ;
+        Type = type ;
 
-        public Type Type { get ; private set ; } = typeof ( object ) ;
+        _constructors = Type.GetConstructors ( )
+                            .ToArray ( ) ;
 
-        public IConstructorInfoProvider SetType ( Type type )
-        {
-            Guard.ArgumentNotNull ( type ,
-                                    nameof ( type ) ) ;
+        _logger.Information ( $"Loaded constructors for type '{Type}'" ) ;
 
-            Type = type ;
+        return this ;
+    }
 
-            _constructors = Type.GetConstructors ( )
-                                .ToArray ( ) ;
+    public IEnumerator < ConstructorInfo > GetEnumerator ( )
+    {
+        return ( ( IEnumerable < ConstructorInfo > ) _constructors ).GetEnumerator ( ) ;
+    }
 
-            _logger.Information ( $"Loaded constructors for type '{Type}'" ) ;
-
-            return this ;
-        }
-
-        public IEnumerator < ConstructorInfo > GetEnumerator ( )
-        {
-            return ( ( IEnumerable < ConstructorInfo > ) _constructors ).GetEnumerator ( ) ;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator ( )
-        {
-            return GetEnumerator ( ) ;
-        }
+    IEnumerator IEnumerable.GetEnumerator ( )
+    {
+        return GetEnumerator ( ) ;
     }
 }

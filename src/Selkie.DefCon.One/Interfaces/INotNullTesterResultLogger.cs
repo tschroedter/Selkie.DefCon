@@ -1,10 +1,9 @@
 ﻿using JetBrains.Annotations ;
 using Selkie.DefCon.One.Common ;
 
-namespace Selkie.DefCon.One.Interfaces
+namespace Selkie.DefCon.One.Interfaces ;
+
+public interface INotNullTesterResultLogger
 {
-    public interface INotNullTesterResultLogger
-    {
-        void LogResult ( [ NotNull ] NotNullTesterResult result ) ;
-    }
+    void LogResult ( [ NotNull ] NotNullTesterResult result ) ;
 }

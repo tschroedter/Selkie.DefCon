@@ -2,12 +2,13 @@
 using System.Collections.Generic ;
 using JetBrains.Annotations ;
 
-namespace Selkie.DefCon.One.Interfaces.Arguments
-{
-    public interface IParameterInfo
-    {
-        [ NotNull ] IEnumerable < ICustomAttributeData > CustomAttributes { get ; }
+namespace Selkie.DefCon.One.Interfaces.Arguments ;
 
-        [ NotNull ] Type ParameterType { get ; }
-    }
+public interface IParameterInfo
+{
+    [ NotNull ]
+    IEnumerable < ICustomAttributeData > CustomAttributes { get ; }
+
+    [ NotNull ]
+    Type ParameterType { get ; }
 }

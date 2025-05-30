@@ -5,13 +5,13 @@
 namespace Selkie.DefCon.One.DotNetCore.Tests.Common ;
 
 [ method : UsedImplicitly ]
-public class TestClassTwoConstructors ( TestClass testClass ,
+public class TestClassTwoConstructors ( TestClass  testClass ,
                                         ISomething something ,
-                                        string text ,
-                                        int value )
+                                        string     text ,
+                                        int        value )
 {
     [ UsedImplicitly ]
-    public TestClassTwoConstructors ( TestClass testClass ,
+    public TestClassTwoConstructors ( TestClass  testClass ,
                                       ISomething something )
         : this ( testClass ,
                  something ,

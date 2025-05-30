@@ -6,68 +6,67 @@ using Selkie.DefCon.One.Extensions ;
 using Selkie.DefCon.One.Interfaces ;
 using Serilog ;
 
-namespace Selkie.DefCon.One.Constructor
+namespace Selkie.DefCon.One.Constructor ;
+
+public class FailedConstructorCalls
+    : IFailedConstructorCalls
 {
-    public class FailedConstructorCalls
-        : IFailedConstructorCalls
+    private readonly Dictionary < string , List < DefConConstructorInfo > > _dictionary = new ( ) ;
+
+    private readonly ILogger _logger ;
+
+    public FailedConstructorCalls ( [ JetBrains.Annotations.NotNull ] ILogger logger )
     {
-        private readonly Dictionary < string , List < DefConConstructorInfo > > _dictionary = new ( ) ;
+        Guard.ArgumentNotNull ( logger ,
+                                nameof ( logger ) ) ;
 
-        private readonly ILogger _logger ;
+        _logger = logger ;
+    }
 
-        public FailedConstructorCalls ( [ JetBrains.Annotations.NotNull ] ILogger logger )
+    public List < DefConConstructorInfo > this [ string i ] => _dictionary [ i ] ;
+
+    public IFailedConstructorCalls Add ( IEnumerable < DefConConstructorInfo > failed )
+    {
+        foreach ( var failedConstructorInfo in failed )
         {
-            Guard.ArgumentNotNull ( logger ,
-                                    nameof ( logger ) ) ;
+            var key = failedConstructorInfo.ConstructorInfo.ToText ( ) ;
 
-            _logger = logger ;
-        }
-
-        public List < DefConConstructorInfo > this [ string i ] => _dictionary [ i ] ;
-
-        public IFailedConstructorCalls Add ( IEnumerable < DefConConstructorInfo > failed )
-        {
-            foreach ( var failedConstructorInfo in failed )
+            if ( ! _dictionary.TryGetValue ( key ,
+                                             out var list ) )
             {
-                var key = failedConstructorInfo.ConstructorInfo.ToText ( ) ;
+                list = [] ;
 
-                if ( ! _dictionary.TryGetValue ( key ,
-                                                 out var list ) )
-                {
-                    list = [] ;
+                _dictionary [ key ] = list ;
 
-                    _dictionary [ key ] = list ;
-
-                    _logger.Information ( $"{key}" ) ;
-                }
-
-                list.Add ( failedConstructorInfo ) ;
+                _logger.Information ( $"{key}" ) ;
             }
 
-            return this ;
+            list.Add ( failedConstructorInfo ) ;
         }
 
-        public IEnumerator < string > GetEnumerator ( )
+        return this ;
+    }
+
+    public IEnumerator < string > GetEnumerator ( )
+    {
+        foreach ( var key in _dictionary.Keys )
         {
-            foreach ( var key in _dictionary.Keys )
-            {
-                yield return key ;
-            }
+            yield return key ;
         }
+    }
 
-        [ ExcludeFromCodeCoverage ]
-        IEnumerator IEnumerable.GetEnumerator ( )
-        {
-            return GetEnumerator ( ) ;
-        }
+    [ ExcludeFromCodeCoverage ]
+    IEnumerator IEnumerable.GetEnumerator ( )
+    {
+        return GetEnumerator ( ) ;
+    }
 
-        public int Count => _dictionary.Count ;
+    public int Count => _dictionary.Count ;
 
-        public IFailedConstructorCalls Clear ( )
-        {
-            _dictionary.Clear ( ) ;
+    public IFailedConstructorCalls Clear ( )
+    {
+        _dictionary.Clear ( ) ;
 
-            return this ;
-        }
+        return this ;
     }
 }

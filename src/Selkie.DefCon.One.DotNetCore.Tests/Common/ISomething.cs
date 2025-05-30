@@ -1,10 +1,9 @@
 ﻿using JetBrains.Annotations ;
 
-namespace Selkie.DefCon.One.DotNetCore.Tests.Common
+namespace Selkie.DefCon.One.DotNetCore.Tests.Common ;
+
+public interface ISomething
 {
-    public interface ISomething
-    {
-        [ UsedImplicitly ]
-        void DoNothing ( ) ;
-    }
+    [ UsedImplicitly ]
+    void DoNothing ( ) ;
 }

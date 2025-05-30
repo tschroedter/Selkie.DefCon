@@ -1,9 +1,8 @@
 ﻿using System ;
 
-namespace Selkie.DefCon.One.Interfaces.Arguments
+namespace Selkie.DefCon.One.Interfaces.Arguments ;
+
+public interface ICustomAttributeData
 {
-    public interface ICustomAttributeData
-    {
-        Type AttributeType { get ; }
-    }
+    Type AttributeType { get ; }
 }

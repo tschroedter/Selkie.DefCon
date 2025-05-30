@@ -10,231 +10,233 @@ using Selkie.DefCon.One.DotNetCore.Tests.Common ;
 using Selkie.DefCon.One.Extensions ;
 using Serilog ;
 
-namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
+namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor ;
+
+[ TestClass ]
+public class DefConConstructorCallsTests
 {
-    [ TestClass ]
-    public class DefConConstructorCallsTests
+    private DefConConstructorInfo _infoOne ;
+    private DefConConstructorInfo _infoOther ;
+
+    // ReSharper disable once NotAccessedField.Local
+    private DefConConstructorInfo _infoThree ;
+    private DefConConstructorInfo _infoTwo ;
+    private ILogger               _logger ;
+
+    [ TestMethod ]
+    public void Add_ForOneFailingCallForOneConstructorInfo_AddsEntryToCreatedList ( )
     {
-        private DefConConstructorInfo _infoOne ;
-        private DefConConstructorInfo _infoOther ;
+        DefConConstructorInfo [ ] failed =
+        [
+            _infoOne
+        ] ;
 
-        // ReSharper disable once NotAccessedField.Local
-        private DefConConstructorInfo _infoThree ;
-        private DefConConstructorInfo _infoTwo ;
-        private ILogger               _logger ;
+        var key = _infoOne.ConstructorInfo.ToText ( ) ;
 
-        [ TestMethod ]
-        public void Add_ForOneFailingCallForOneConstructorInfo_AddsEntryToCreatedList ( )
+        CreateSut ( )
+           .Add ( failed ) [ key ]
+           .Should ( )
+           .BeEquivalentTo ( failed ) ;
+    }
+
+    [ TestMethod ]
+    public void Add_ForOneFailingCallForOneConstructorInfo_CreatesList ( )
+    {
+        DefConConstructorInfo [ ] failed =
+        [
+            _infoOne
+        ] ;
+
+        CreateSut ( )
+           .Add ( failed )
+           .Should ( )
+           .HaveCount ( 1 ,
+                        "One Entry For ConstructorInfo" ) ;
+    }
+
+    [ TestMethod ]
+    public void Add_ForTwoDifferentClasses_AddsEntriesToCreatedLists ( )
+    {
+        DefConConstructorInfo [ ] failed =
+        [
+            _infoOne ,
+            _infoOther
+        ] ;
+
+        var actual = CreateSut ( )
+           .Add ( failed ) ;
+
+        using ( new AssertionScope ( ) )
         {
-            DefConConstructorInfo [ ] failed =
-            [
-                _infoOne
-            ] ;
-
             var key = _infoOne.ConstructorInfo.ToText ( ) ;
 
-            CreateSut ( )
-               .Add ( failed ) [ key ]
+            actual [ key ]
                .Should ( )
-               .BeEquivalentTo ( failed ) ;
-        }
+               .BeEquivalentTo ( [
+                                     _infoOne
+                                 ] ) ;
 
-        [ TestMethod ]
-        public void Add_ForOneFailingCallForOneConstructorInfo_CreatesList ( )
-        {
-            DefConConstructorInfo [ ] failed =
-            [
-                _infoOne
-            ] ;
+            var keyOther = _infoOther.ConstructorInfo.ToText ( ) ;
 
-            CreateSut ( )
-               .Add ( failed )
+            actual [ keyOther ]
                .Should ( )
-               .HaveCount ( 1 ,
-                            "One Entry For ConstructorInfo" ) ;
+               .BeEquivalentTo ( [
+                                     _infoOther
+                                 ] ) ;
         }
+    }
 
-        [ TestMethod ]
-        public void Add_ForTwoDifferentClasses_AddsEntriesToCreatedLists ( )
-        {
-            DefConConstructorInfo [ ] failed =
-            [
-                _infoOne ,
-                _infoOther
-            ] ;
+    [ TestMethod ]
+    public void Add_ForTwoDifferentClasses_AddsInfos ( )
+    {
+        DefConConstructorInfo [ ] failed =
+        [
+            _infoOne ,
+            _infoOther
+        ] ;
 
-            var actual = CreateSut ( )
-               .Add ( failed ) ;
+        CreateSut ( )
+           .Add ( failed )
+           .Should ( )
+           .HaveCount ( failed.Length ,
+                        "One Entry For ConstructorInfo" ) ;
+    }
 
-            using ( new AssertionScope ( ) )
-            {
-                var key = _infoOne.ConstructorInfo.ToText ( ) ;
+    [ TestMethod ]
+    public void Add_ForTwoDifferentConstructorInfoInstances_AddsInfos ( )
+    {
+        DefConConstructorInfo [ ] failed =
+        [
+            _infoOne ,
+            _infoOther
+        ] ;
 
-                actual [ key ]
-                   .Should ( )
-                   .BeEquivalentTo ( [
-                                         _infoOne
-                                     ] ) ;
+        CreateSut ( )
+           .Add ( failed )
+           .Should ( )
+           .HaveCount ( failed.Length ,
+                        "One Entry For ConstructorInfo" ) ;
+    }
 
-                var keyOther = _infoOther.ConstructorInfo.ToText ( ) ;
+    [ TestMethod ]
+    public void Add_ForTwoFailingCallForConstructorInfo_AddsInfos ( )
+    {
+        DefConConstructorInfo [ ] failed =
+        [
+            _infoOne ,
+            _infoTwo
+        ] ;
 
-                actual [ keyOther ]
-                   .Should ( )
-                   .BeEquivalentTo ( [
-                                         _infoOther
-                                     ] ) ;
-            }
-        }
+        CreateSut ( )
+           .Add ( failed )
+           .Should ( )
+           .HaveCount ( 1 ,
+                        "One Entry For ConstructorInfo" ) ;
+    }
 
-        [ TestMethod ]
-        public void Add_ForTwoDifferentClasses_AddsInfos ( )
-        {
-            DefConConstructorInfo [ ] failed =
-            [
-                _infoOne ,
-                _infoOther
-            ] ;
+    [ TestMethod ]
+    public void Add_ForTwoFailingCallForOneConstructorInfo_AddsEntriesToCreatedList ( )
+    {
+        DefConConstructorInfo [ ] failed =
+        [
+            _infoOne ,
+            _infoTwo
+        ] ;
 
-            CreateSut ( )
-               .Add ( failed )
-               .Should ( )
-               .HaveCount ( failed.Length ,
-                            "One Entry For ConstructorInfo" ) ;
-        }
+        var key = _infoOne.ConstructorInfo.ToText ( ) ;
 
-        [ TestMethod ]
-        public void Add_ForTwoDifferentConstructorInfoInstances_AddsInfos ( )
-        {
-            DefConConstructorInfo [ ] failed =
-            [
-                _infoOne ,
-                _infoOther
-            ] ;
+        CreateSut ( )
+           .Add ( failed ) [ key ]
+           .Should ( )
+           .BeEquivalentTo ( failed ) ;
+    }
 
-            CreateSut ( )
-               .Add ( failed )
-               .Should ( )
-               .HaveCount ( failed.Length ,
-                            "One Entry For ConstructorInfo" ) ;
-        }
+    [ TestMethod ]
+    public void Clear_ForInvoked_EmptyList ( )
+    {
+        DefConConstructorInfo [ ] failed =
+        [
+            _infoOne
+        ] ;
 
-        [ TestMethod ]
-        public void Add_ForTwoFailingCallForConstructorInfo_AddsInfos ( )
-        {
-            DefConConstructorInfo [ ] failed =
-            [
-                _infoOne ,
-                _infoTwo
-            ] ;
+        CreateSut ( )
+           .Add ( failed )
+           .Clear ( )
+           .Should ( )
+           .HaveCount ( 0 ) ;
+    }
 
-            CreateSut ( )
-               .Add ( failed )
-               .Should ( )
-               .HaveCount ( 1 ,
-                            "One Entry For ConstructorInfo" ) ;
-        }
+    [ TestMethod ]
+    public void Constructor_ForLoggerIsNull_Throws ( )
+    {
+        _logger = null ;
 
-        [ TestMethod ]
-        public void Add_ForTwoFailingCallForOneConstructorInfo_AddsEntriesToCreatedList ( )
-        {
-            DefConConstructorInfo [ ] failed =
-            [
-                _infoOne ,
-                _infoTwo
-            ] ;
+        Action action = ( ) => CreateSut ( ) ;
 
-            var key = _infoOne.ConstructorInfo.ToText ( ) ;
+        action.Should ( )
+              .Throw < ArgumentNullException > ( )
+              .And.ParamName.Should ( )
+              .Be ( "logger" ) ;
+    }
 
-            CreateSut ( )
-               .Add ( failed ) [ key ]
-               .Should ( )
-               .BeEquivalentTo ( failed ) ;
-        }
+    [ TestMethod ]
+    public void Count_ForInvoked_Zero ( )
+    {
+        CreateSut ( )
+           .Should ( )
+           .HaveCount ( 0 ) ;
+    }
 
-        [ TestMethod ]
-        public void Clear_ForInvoked_EmptyList ( )
-        {
-            DefConConstructorInfo [ ] failed =
-            [
-                _infoOne
-            ] ;
+    [ TestInitialize ]
+    public void Setup ( )
+    {
+        _logger = Substitute.For < ILogger > ( ) ;
 
-            CreateSut ( )
-               .Add ( failed )
-               .Clear ( )
-               .Should ( )
-               .HaveCount ( 0 ) ;
-        }
+        _infoOne = CreateInfo ( 0 ,
+                                0 ) ;
+        _infoTwo = CreateInfo ( 0 ,
+                                1 ) ;
+        _infoThree = CreateInfo ( 1 ,
+                                  1 ) ;
+        _infoOther = CreateOther ( ) ;
+    }
 
-        [ TestMethod ]
-        public void Constructor_ForLoggerIsNull_Throws ( )
-        {
-            _logger = null ;
+    private DefConConstructorInfo CreateInfo ( int skipConstructor ,
+                                               int parameterIndex )
+    {
+        var constructorInfo = typeof ( TestClassTwoConstructors ).GetConstructors ( )
+                                                                 .Skip ( skipConstructor )
+                                                                 .First ( ) ;
 
-            Action action = ( ) => CreateSut ( ) ;
-
-            action.Should ( )
-                  .Throw < ArgumentNullException > ( )
-                  .And.ParamName.Should ( )
-                  .Be ( "logger" ) ;
-        }
-
-        [ TestMethod ]
-        public void Count_ForInvoked_Zero ( )
-        {
-            CreateSut ( )
-               .Should ( )
-               .HaveCount ( 0 ) ;
-        }
-
-        [ TestInitialize ]
-        public void Setup ( )
-        {
-            _logger = Substitute.For < ILogger > ( ) ;
-
-            _infoOne   = CreateInfo ( 0 , 0 ) ;
-            _infoTwo   = CreateInfo ( 0 , 1 ) ;
-            _infoThree = CreateInfo ( 1 , 1 ) ;
-            _infoOther = CreateOther ( ) ;
-        }
-
-        private DefConConstructorInfo CreateInfo ( int skipConstructor ,
-                                                   int parameterIndex )
-        {
-            var constructorInfo = typeof ( TestClassTwoConstructors ).GetConstructors ( )
-                                                                     .Skip ( skipConstructor )
-                                                                     .First ( ) ;
-
-            var parameterInfo = constructorInfo.GetParameters ( ) ;
+        var parameterInfo = constructorInfo.GetParameters ( ) ;
 
 
-            return new DefConConstructorInfo ( constructorInfo ,
-                                               typeof ( TestClassTwoConstructors ) ,
-                                               parameterInfo ,
-                                               null ,
-                                               parameterIndex ,
-                                               typeof ( ArgumentNullException ) ) ;
-        }
+        return new DefConConstructorInfo ( constructorInfo ,
+                                           typeof ( TestClassTwoConstructors ) ,
+                                           parameterInfo ,
+                                           null ,
+                                           parameterIndex ,
+                                           typeof ( ArgumentNullException ) ) ;
+    }
 
-        private DefConConstructorInfo CreateOther ( )
-        {
-            var constructorInfo = typeof ( TestClass ).GetConstructors ( )
-                                                      .First ( ) ;
+    private DefConConstructorInfo CreateOther ( )
+    {
+        var constructorInfo = typeof ( TestClass ).GetConstructors ( )
+                                                  .First ( ) ;
 
-            var parameterInfo = constructorInfo.GetParameters ( ) ;
+        var parameterInfo = constructorInfo.GetParameters ( ) ;
 
 
-            return new DefConConstructorInfo ( constructorInfo ,
-                                               typeof ( TestClass ) ,
-                                               parameterInfo ,
-                                               null ,
-                                               0 ,
-                                               typeof ( ArgumentNullException ) ) ;
-        }
+        return new DefConConstructorInfo ( constructorInfo ,
+                                           typeof ( TestClass ) ,
+                                           parameterInfo ,
+                                           null ,
+                                           0 ,
+                                           typeof ( ArgumentNullException ) ) ;
+    }
 
-        private FailedConstructorCalls CreateSut ( )
-        {
-            return new FailedConstructorCalls ( _logger ) ;
-        }
+    private FailedConstructorCalls CreateSut ( )
+    {
+        return new FailedConstructorCalls ( _logger ) ;
     }
 }

@@ -1,27 +1,26 @@
 ﻿using AutoFixture.Kernel ;
 
-namespace Selkie.DefCon.One.Arguments
+namespace Selkie.DefCon.One.Arguments ;
+
+/// <summary>
+///     A <see cref="ISpecimenBuilder" /> that always returns null.
+/// </summary>
+public class NullBuilder : ISpecimenBuilder
 {
     /// <summary>
-    ///     A <see cref="ISpecimenBuilder" /> that always returns null.
+    ///     Returns null specimen every time.
     /// </summary>
-    public class NullBuilder : ISpecimenBuilder
+    /// <param name="request">The request that describes what to create. Ignored.</param>
+    /// <param name="context">
+    ///     A context that can be used to create other specimens. Ignored.
+    /// </param>
+    /// <returns>
+    ///     The specimen supplied to the instance in the constructor.
+    /// </returns>
+    /// <seealso cref="FixedBuilder(object)" />
+    public object Create ( object           request ,
+                           ISpecimenContext context )
     {
-        /// <summary>
-        ///     Returns null specimen every time.
-        /// </summary>
-        /// <param name="request">The request that describes what to create. Ignored.</param>
-        /// <param name="context">
-        ///     A context that can be used to create other specimens. Ignored.
-        /// </param>
-        /// <returns>
-        ///     The specimen supplied to the instance in the constructor.
-        /// </returns>
-        /// <seealso cref="FixedBuilder(object)" />
-        public object Create ( object           request ,
-                               ISpecimenContext context )
-        {
-            return null ;
-        }
+        return null ;
     }
 }

@@ -3,65 +3,64 @@ using System.Reflection ;
 using System.Text ;
 using JetBrains.Annotations ;
 
-namespace Selkie.DefCon.One.Extensions
+namespace Selkie.DefCon.One.Extensions ;
+
+public static class ObjectArrayExtensions
 {
-    public static class ObjectArrayExtensions
+    [ NotNull ]
+    public static string ToText ( this Type [ ] parameters )
     {
-        [ NotNull ]
-        public static string ToText ( this Type [ ] parameters )
+        var builder = new StringBuilder ( ) ;
+
+        for ( var index = 0 ; index < parameters.Length ; index ++ )
         {
-            var builder = new StringBuilder ( ) ;
+            object parameter = parameters [ index ] ;
 
-            for ( var index = 0 ; index < parameters.Length ; index ++ )
+            if ( index != 0 &&
+                 index < parameters.Length )
+                builder.Append ( ", " ) ;
+
+            switch ( parameter )
             {
-                object parameter = parameters [ index ] ;
-
-                if ( index != 0 &&
-                     index < parameters.Length )
-                    builder.Append ( ", " ) ;
-
-                switch ( parameter )
-                {
-                    case null :
-                        builder.Append ( "null" ) ;
-                        continue ;
-                    default :
-                        builder.Append ( parameter ) ;
-                        break ;
-                }
+                case null :
+                    builder.Append ( "null" ) ;
+                    continue ;
+                default :
+                    builder.Append ( parameter ) ;
+                    break ;
             }
-
-            return builder.ToString ( ) ;
         }
 
-        [ NotNull ]
-        public static string ToText ( this object [ ] parameters )
+        return builder.ToString ( ) ;
+    }
+
+    [ NotNull ]
+    public static string ToText ( this object [ ] parameters )
+    {
+        var builder = new StringBuilder ( ) ;
+
+        for ( var index = 0 ; index < parameters.Length ; index ++ )
         {
-            var builder = new StringBuilder ( ) ;
+            var parameter = parameters [ index ] ;
 
-            for ( var index = 0 ; index < parameters.Length ; index ++ )
+            if ( index != 0 &&
+                 index < parameters.Length )
+                builder.Append ( ", " ) ;
+
+            switch ( parameter )
             {
-                var parameter = parameters [ index ] ;
-
-                if ( index != 0 &&
-                     index < parameters.Length )
-                    builder.Append ( ", " ) ;
-
-                switch ( parameter )
-                {
-                    case null :
-                        builder.Append ( "null" ) ;
-                        continue ;
-                    case ParameterInfo info :
-                        builder.Append ( info.ParameterType.FullName ) ;
-                        continue ;
-                    default :
-                        builder.Append ( parameter ) ;
-                        break ;
-                }
+                case null :
+                    builder.Append ( "null" ) ;
+                    continue ;
+                case ParameterInfo info :
+                    builder.Append ( info.ParameterType.FullName ) ;
+                    continue ;
+                default :
+                    builder.Append ( parameter ) ;
+                    break ;
             }
-
-            return builder.ToString ( ) ;
         }
+
+        return builder.ToString ( ) ;
     }
 }

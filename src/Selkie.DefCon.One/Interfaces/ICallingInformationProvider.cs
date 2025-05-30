@@ -3,19 +3,19 @@ using System.Collections.Generic ;
 using JetBrains.Annotations ;
 using Selkie.DefCon.One.Common ;
 
-namespace Selkie.DefCon.One.Interfaces
+namespace Selkie.DefCon.One.Interfaces ;
+
+public interface ICallingInformationProvider
+    : IEnumerable < CallingInformation >
 {
-    public interface ICallingInformationProvider
-        : IEnumerable < CallingInformation >
-    {
-        CallingInformation this [ int index ] { get ; }
+    CallingInformation this [ int index ] { get ; }
 
-        int ConstructorsToTest { get ; }
+    int ConstructorsToTest { get ; }
 
-        [ NotNull ] Type InstanceType { get ; }
+    [ NotNull ]
+    Type InstanceType { get ; }
 
-        void Find ( ) ;
+    void Find ( ) ;
 
-        void SetType ( [ NotNull ] Type type ) ;
-    }
+    void SetType ( [ NotNull ] Type type ) ;
 }

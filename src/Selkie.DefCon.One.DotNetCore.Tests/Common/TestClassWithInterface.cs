@@ -4,10 +4,10 @@ using JetBrains.Annotations ;
 
 namespace Selkie.DefCon.One.DotNetCore.Tests.Common ;
 
-public class TestClassWithInterface ( TestClass testClass ,
+public class TestClassWithInterface ( TestClass  testClass ,
                                       ISomething something ,
-                                      string text ,
-                                      int value )
+                                      string     text ,
+                                      int        value )
 {
     [ UsedImplicitly ]
     public TestClass TestClass { get ; } = testClass ;

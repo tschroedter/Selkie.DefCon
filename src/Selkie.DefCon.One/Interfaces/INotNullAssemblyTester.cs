@@ -1,10 +1,9 @@
 ﻿using System.Reflection ;
 using JetBrains.Annotations ;
 
-namespace Selkie.DefCon.One.Interfaces
+namespace Selkie.DefCon.One.Interfaces ;
+
+public interface INotNullAssemblyTester
 {
-    public interface INotNullAssemblyTester
-    {
-        void Test ( [ NotNull ] Assembly assembly ) ;
-    }
+    void Test ( [ NotNull ] Assembly assembly ) ;
 }

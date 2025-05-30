@@ -3,16 +3,17 @@ using System.Collections.Generic ;
 using System.Reflection ;
 using JetBrains.Annotations ;
 
-namespace Selkie.DefCon.One.Interfaces
+namespace Selkie.DefCon.One.Interfaces ;
+
+public interface IConstructorInfoProvider : IEnumerable < ConstructorInfo >
 {
-    public interface IConstructorInfoProvider : IEnumerable < ConstructorInfo >
-    {
-        [ NotNull ] Type Type { get ; }
+    [ NotNull ]
+    Type Type { get ; }
 
-        int Length { get ; }
+    int Length { get ; }
 
-        [ NotNull ] ConstructorInfo this [ int index ] { get ; }
+    [ NotNull ]
+    ConstructorInfo this [ int index ] { get ; }
 
-        IConstructorInfoProvider SetType ( [ NotNull ] Type type ) ;
-    }
+    IConstructorInfoProvider SetType ( [ NotNull ] Type type ) ;
 }

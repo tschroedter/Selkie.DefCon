@@ -8,50 +8,50 @@ using Selkie.DefCon.One.Test.Examples ;
 using Serilog ;
 using Serilog.Events ;
 
-namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor
+namespace Selkie.DefCon.One.DotNetCore.Tests.Constructor ;
+
+[ TestClass ]
+public class NotNullAssemblyTesterTests
 {
-    [ TestClass ]
-    public class NotNullAssemblyTesterTests
+    private IContainer _container ;
+
+    [ TestCleanup ]
+    public void Cleanup ( )
     {
-        private IContainer _container ;
+        _container.Dispose ( ) ;
+    }
 
-        [ TestCleanup ]
-        public void Cleanup ( )
-        {
-            _container.Dispose ( ) ;
-        }
+    [ TestMethod ]
+    public void Constructor_ForAnyParameterNull_Throws ( )
+    {
+        // ReSharper disable once AssignNullToNotNullAttribute
+        CreateSut ( )
+           .Test ( Assembly.GetAssembly ( typeof ( ExamplePassing ) ) ) ;
+    }
 
-        [ TestMethod ]
-        public void Constructor_ForAnyParameterNull_Throws ( )
-        {
-            // ReSharper disable once AssignNullToNotNullAttribute
-            CreateSut ( )
-               .Test ( Assembly.GetAssembly ( typeof ( ExamplePassing ) ) ) ;
-        }
+    [ TestInitialize ]
+    public void Initialize ( )
+    {
+        const string template = "[{Timestamp:HH:mm:ss.ffff} {Level:u3}] " +
+                                "{Message} (at {Caller}){NewLine}{Exception}" ;
 
-        [ TestInitialize ]
-        public void Initialize ( )
-        {
-            const string template = "[{Timestamp:HH:mm:ss.ffff} {Level:u3}] " +
-                                    "{Message} (at {Caller}){NewLine}{Exception}" ;
+        Log.Logger = new LoggerConfiguration ( )
+                    .Enrich.WithCaller ( )
+                    .MinimumLevel.Information ( )
+                    .WriteTo.Console ( LogEventLevel.Debug ,
+                                       template )
+                    .CreateLogger ( ) ;
 
-            Log.Logger = new LoggerConfiguration ( )
-                        .Enrich.WithCaller ( )
-                        .MinimumLevel.Information ( )
-                        .WriteTo.Console ( LogEventLevel.Debug , template )
-                        .CreateLogger ( ) ;
+        var builder = new ContainerBuilder ( ) ;
 
-            var builder = new ContainerBuilder ( ) ;
+        builder.RegisterLogger ( ) ;
+        builder.RegisterModule < DefConOneModule > ( ) ;
 
-            builder.RegisterLogger ( ) ;
-            builder.RegisterModule < DefConOneModule > ( ) ;
+        _container = builder.Build ( ) ;
+    }
 
-            _container = builder.Build ( ) ;
-        }
-
-        private INotNullAssemblyTester CreateSut ( )
-        {
-            return _container.Resolve < INotNullAssemblyTester > ( ) ;
-        }
+    private INotNullAssemblyTester CreateSut ( )
+    {
+        return _container.Resolve < INotNullAssemblyTester > ( ) ;
     }
 }
