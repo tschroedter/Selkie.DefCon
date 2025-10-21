@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/tschroedter/Selkie.DefCon/blob/main/README.md
+    about: Please check the documentation before opening an issue
+  - name: 💬 Discussions
+    url: https://github.com/tschroedter/Selkie.DefCon/discussions
+    about: Use GitHub Discussions for questions and general discussions
