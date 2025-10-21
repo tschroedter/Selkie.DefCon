@@ -5,30 +5,36 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: read
+  checks: write
+  issues: write
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
       checks: write
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
-    
+
     - name: Restore dependencies
       run: dotnet restore src/Selkie.DefCon.sln
-    
+
     - name: Build
       run: dotnet build src/Selkie.DefCon.sln --configuration Release --no-restore
-    
+
     - name: Test
       run: dotnet test src/Selkie.DefCon.sln --configuration Release --no-build --verbosity normal --logger "trx;LogFileName=test-results.trx"
-    
+
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
       if: always()
@@ -41,30 +47,30 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
       contents: read
-    
+
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
-    
+
     - name: Restore dependencies
       run: dotnet restore src/Selkie.DefCon.sln
-    
+
     - name: Build
       run: dotnet build src/Selkie.DefCon.sln --configuration Release --no-restore
-    
+
     - name: Pack
       run: dotnet pack src/Selkie.DefCon.One/Selkie.DefCon.One.csproj --configuration Release --no-build --output ./artifacts
-    
+
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: nuget-packages
         path: ./artifacts/*.nupkg
-    
+
     - name: Publish to NuGet
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
