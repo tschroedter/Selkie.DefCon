@@ -7,6 +7,11 @@
     <PackageProjectUrl>https://github.com/tschroedter/Selkie.DefCon</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tschroedter/Selkie.DefCon</RepositoryUrl>
     <PackageTags>MSTest MSTest2 Extension AutoFixture NSubstitute AutoMocking</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
