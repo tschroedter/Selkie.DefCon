@@ -3,12 +3,22 @@
   <PropertyGroup>
     <TargetFramework>net8</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageTags>MSTest MSTest2 Extension AutoFixture NSubstitute AutoMocking</PackageTags>
+    <PackageTags>MSTest MSTest2 Extension AutoFixture NSubstitute AutoMocking DefensiveProgramming Guard Testing</PackageTags>
     <RepositoryUrl>https://github.com/tschroedter/Selkie.DefCon</RepositoryUrl>
     <PackageProjectUrl>https://github.com/tschroedter/Selkie.DefCon</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>A .NET library providing defensive programming utilities (Guard clauses) and automated testing helpers for constructor null checks. Integrates with MSTest, AutoFixture, and NSubstitute for robust test automation.</Description>
+    <Authors>Tom Schroedter</Authors>
+    <Company>Selkie</Company>
+    <Copyright>Copyright (c) 2020-2025 Tom Schroedter</Copyright>
+    <RepositoryType>git</RepositoryType>
     <Version>1.0.0.0</Version>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="8.4.0" />
