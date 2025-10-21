@@ -10,8 +10,7 @@ public class GuardTests : BaseGuardTests
 {
     [ DataTestMethod ]
     [ DynamicData ( nameof ( NullEmptyOrWhitespace ) ,
-                    typeof ( BaseGuardTests ) ,
-                    DynamicDataSourceType.Method ) ]
+                    typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotEmptyOrWhitespace_ForInvalidValues_Throws ( string value ,
                                                                        Type   type )
     {
@@ -23,8 +22,7 @@ public class GuardTests : BaseGuardTests
 
     [ DataTestMethod ]
     [ DynamicData ( nameof ( InstanceAndInteger ) ,
-                    typeof ( BaseGuardTests ) ,
-                    DynamicDataSourceType.Method ) ]
+                    typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotEmptyOrWhitespace_ForValues_DoesNotThrows ( object value )
     {
         var action = new Action ( ( ) => Guard.ArgumentNotEmptyOrWhitespace ( value ,
@@ -36,8 +34,7 @@ public class GuardTests : BaseGuardTests
 
     [ DataTestMethod ]
     [ DynamicData ( nameof ( NotNegative ) ,
-                    typeof ( BaseGuardTests ) ,
-                    DynamicDataSourceType.Method ) ]
+                    typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotNegative_ForValues_Throws ( int  value ,
                                                        Type type )
     {
@@ -62,8 +59,7 @@ public class GuardTests : BaseGuardTests
 
     [ DataTestMethod ]
     [ DynamicData ( nameof ( InstanceAndInteger ) ,
-                    typeof ( BaseGuardTests ) ,
-                    DynamicDataSourceType.Method ) ]
+                    typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotNull_ForValueNotNull_DoesNotThrows ( object value )
     {
         var action = new Action ( ( ) => Guard.ArgumentNotNull ( value ,
@@ -88,8 +84,7 @@ public class GuardTests : BaseGuardTests
 
     [ DataTestMethod ]
     [ DynamicData ( nameof ( InstanceAndInteger ) ,
-                    typeof ( BaseGuardTests ) ,
-                    DynamicDataSourceType.Method ) ]
+                    typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotNullOrEmpty_ForValues_DoesNotThrows ( object value )
     {
         var action = new Action ( ( ) => Guard.ArgumentNotNullOrEmpty ( value ,
@@ -101,8 +96,7 @@ public class GuardTests : BaseGuardTests
 
     [ DataTestMethod ]
     [ DynamicData ( nameof ( NullOrEmpty ) ,
-                    typeof ( BaseGuardTests ) ,
-                    DynamicDataSourceType.Method ) ]
+                    typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotNullOrEmpty_ForValues_Throws ( string value ,
                                                           Type   type )
     {
