@@ -1,4 +1,4 @@
-﻿using System ;
+using System ;
 using System.Collections ;
 using System.Collections.Generic ;
 using System.Linq ;
@@ -40,8 +40,7 @@ public class ConstructorInfoProvider
 
         Type = type ;
 
-        _constructors = Type.GetConstructors ( )
-                            .ToArray ( ) ;
+        _constructors = Type.GetConstructors ( ) ;
 
         _logger.Information ( $"Loaded constructors for type '{Type}'" ) ;
 
