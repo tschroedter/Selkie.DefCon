@@ -96,6 +96,20 @@ public class MyServiceTests
    dotnet test
    ```
 
+## Version Management
+
+This project uses centralized version management. To update the version before building:
+
+```bash
+# On Linux/macOS
+./update-version.sh 1.2.3
+
+# On Windows
+.\update-version.ps1 -Version "1.2.3"
+```
+
+For more information, see [VERSION_MANAGEMENT.md](VERSION_MANAGEMENT.md).
+
 ## Contributing
 
 Contributions are welcome! Please read our [Contributing Guidelines](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.

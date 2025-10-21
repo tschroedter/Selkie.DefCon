@@ -1,0 +1,15 @@
+<Project>
+  <PropertyGroup>
+    <!-- Version Information -->
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    
+    <!-- Automatically set version based on prefix and suffix -->
+    <Version Condition="'$(VersionSuffix)' == ''">$(VersionPrefix)</Version>
+    <Version Condition="'$(VersionSuffix)' != ''">$(VersionPrefix)-$(VersionSuffix)</Version>
+    
+    <!-- Assembly Version (used for strong naming) -->
+    <AssemblyVersion>$(VersionPrefix).0</AssemblyVersion>
+    <FileVersion>$(VersionPrefix).0</FileVersion>
+  </PropertyGroup>
+</Project>

@@ -23,6 +23,12 @@ jobs:
       with:
         dotnet-version: '8.0.x'
 
+    # Uncomment to update version before build
+    # - name: Update version
+    #   run: ./update-version.sh 1.2.3
+    #   # Or use a version from a tag/input:
+    #   # run: ./update-version.sh ${{ github.event.inputs.version }}
+
     - name: Restore dependencies
       run: dotnet restore src/Selkie.DefCon.sln
 
