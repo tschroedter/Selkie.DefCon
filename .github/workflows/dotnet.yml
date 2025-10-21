@@ -57,7 +57,13 @@ jobs:
     - name: Build
       run: dotnet build src/Selkie.DefCon.sln --configuration Release --no-restore
     
-    - name: Pack
+    - name: Test
+      run: dotnet test src/Selkie.DefCon.sln --configuration Release --no-build --verbosity normal
+    
+    - name: Pack Selkie.DefCon.One.Common
+      run: dotnet pack src/Selkie.DefCon.One.Common/Selkie.DefCon.One.Common.csproj --configuration Release --no-build --output ./artifacts
+    
+    - name: Pack Selkie.DefCon.One
       run: dotnet pack src/Selkie.DefCon.One/Selkie.DefCon.One.csproj --configuration Release --no-build --output ./artifacts
     
     - name: Upload artifacts
