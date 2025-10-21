@@ -6,12 +6,14 @@
     This script updates the version number in the Directory.Build.props file.
     It can be used to update the version before building the project.
 .PARAMETER Version
-    The version number to set (e.g., "1.2.3")
+    The version number to set (e.g., "0.1")
+.PARAMETER BuildNumber
+    The build number to set (e.g., "123"). Defaults to 0.
 .PARAMETER VersionSuffix
     Optional version suffix (e.g., "beta", "alpha", "rc1")
 .EXAMPLE
-    ./update-version.ps1 -Version "1.2.3"
-    ./update-version.ps1 -Version "1.2.3" -VersionSuffix "beta"
+    ./update-version.ps1 -Version "0.1" -BuildNumber "123"
+    ./update-version.ps1 -Version "0.1" -BuildNumber "123" -VersionSuffix "beta"
 #>
 
 param(
@@ -19,12 +21,21 @@ param(
     [string]$Version,
     
     [Parameter(Mandatory=$false)]
+    [string]$BuildNumber = "0",
+    
+    [Parameter(Mandatory=$false)]
     [string]$VersionSuffix = ""
 )
 
-# Validate version format (semantic versioning)
-if ($Version -notmatch '^\d+\.\d+\.\d+$') {
-    Write-Error "Invalid version format. Expected format: X.Y.Z (e.g., 1.2.3)"
+# Validate version format (X.Y format)
+if ($Version -notmatch '^\d+\.\d+$') {
+    Write-Error "Invalid version format. Expected format: X.Y (e.g., 0.1)"
+    exit 1
+}
+
+# Validate build number format
+if ($BuildNumber -notmatch '^\d+$') {
+    Write-Error "Invalid build number format. Expected a number (e.g., 123)"
     exit 1
 }
 
@@ -35,13 +46,17 @@ if (-not (Test-Path $propsFile)) {
     exit 1
 }
 
-Write-Host "Updating version to: $Version$(if ($VersionSuffix) { "-$VersionSuffix" })" -ForegroundColor Green
+Write-Host "Updating version to: $Version.$BuildNumber$(if ($VersionSuffix) { "-$VersionSuffix" })" -ForegroundColor Green
 
 # Read the file
 $content = Get-Content $propsFile -Raw
 
 # Update VersionPrefix
 $content = $content -replace '<VersionPrefix>.*?</VersionPrefix>', "<VersionPrefix>$Version</VersionPrefix>"
+
+# Update BuildNumber - escape the pattern properly
+$buildNumberReplacement = "<BuildNumber Condition=`"'`$(BuildNumber)' == ''`">$BuildNumber</BuildNumber>"
+$content = $content -replace '<BuildNumber Condition="''[$][(]BuildNumber[)]'' == ''''">.*?</BuildNumber>', $buildNumberReplacement
 
 # Update VersionSuffix
 $content = $content -replace '<VersionSuffix>.*?</VersionSuffix>', "<VersionSuffix>$VersionSuffix</VersionSuffix>"
