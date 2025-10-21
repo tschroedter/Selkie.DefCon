@@ -46,7 +46,21 @@ jobs:
         if-no-files-found: error
 
     - name: Push NuGet packages
-      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/deploy-v0.1.')
       run: dotnet nuget push ./nupkgs/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
       env:
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+    - name: Create new version tag
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/deploy-v0.1.')
+      run: |
+        echo "Deploy tag: $GITHUB_REF"
+        # Remove the 'refs/tags/deploy-' prefix
+        TAGVERSION=${GITHUB_REF#refs/tags/deploy-}
+        NEW_TAG=$TAGVERSION
+        echo "Creating new tag: $NEW_TAG"
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git tag $NEW_TAG
+        git push origin $NEW_TAG
+
