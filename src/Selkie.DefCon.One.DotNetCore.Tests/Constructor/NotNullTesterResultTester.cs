@@ -1,4 +1,4 @@
-﻿using System ;
+using System ;
 using AutoFixture ;
 using AutoFixture.AutoNSubstitute ;
 using FluentAssertions ;
@@ -103,7 +103,7 @@ public class NotNullTesterResultTester
               .BeTrue ( ) ;
     }
 
-    [ DataTestMethod ]
+    [ TestMethod ]
     [ AutoNSubstituteData ]
     public void Test1 ( Fixture fixture )
     {

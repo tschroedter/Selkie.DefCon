@@ -1,4 +1,4 @@
-﻿using System ;
+using System ;
 using FluentAssertions ;
 using Microsoft.VisualStudio.TestTools.UnitTesting ;
 using Selkie.DefCon.One.Common ;
@@ -8,7 +8,7 @@ namespace Selkie.DefCon.One.DotNetCore.Tests.Common ;
 [ TestClass ]
 public class GuardTests : BaseGuardTests
 {
-    [ DataTestMethod ]
+    [ TestMethod ]
     [ DynamicData ( nameof ( NullEmptyOrWhitespace ) ,
                     typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotEmptyOrWhitespace_ForInvalidValues_Throws ( string value ,
@@ -20,7 +20,7 @@ public class GuardTests : BaseGuardTests
                           "parameter" ) ;
     }
 
-    [ DataTestMethod ]
+    [ TestMethod ]
     [ DynamicData ( nameof ( InstanceAndInteger ) ,
                     typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotEmptyOrWhitespace_ForValues_DoesNotThrows ( object value )
@@ -32,7 +32,7 @@ public class GuardTests : BaseGuardTests
               .NotThrow ( ) ;
     }
 
-    [ DataTestMethod ]
+    [ TestMethod ]
     [ DynamicData ( nameof ( NotNegative ) ,
                     typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotNegative_ForValues_Throws ( int  value ,
@@ -44,7 +44,7 @@ public class GuardTests : BaseGuardTests
                           "parameter" ) ;
     }
 
-    [ DataTestMethod ]
+    [ TestMethod ]
     [ DataRow ( 0 ) ]
     [ DataRow ( 1 ) ]
     [ DataRow ( 2 ) ]
@@ -57,7 +57,7 @@ public class GuardTests : BaseGuardTests
               .NotThrow ( ) ;
     }
 
-    [ DataTestMethod ]
+    [ TestMethod ]
     [ DynamicData ( nameof ( InstanceAndInteger ) ,
                     typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotNull_ForValueNotNull_DoesNotThrows ( object value )
@@ -82,7 +82,7 @@ public class GuardTests : BaseGuardTests
               .Be ( "parameter" ) ;
     }
 
-    [ DataTestMethod ]
+    [ TestMethod ]
     [ DynamicData ( nameof ( InstanceAndInteger ) ,
                     typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotNullOrEmpty_ForValues_DoesNotThrows ( object value )
@@ -94,7 +94,7 @@ public class GuardTests : BaseGuardTests
               .NotThrow ( ) ;
     }
 
-    [ DataTestMethod ]
+    [ TestMethod ]
     [ DynamicData ( nameof ( NullOrEmpty ) ,
                     typeof ( BaseGuardTests ) ) ]
     public void ArgumentNotNullOrEmpty_ForValues_Throws ( string value ,
