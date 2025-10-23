@@ -63,7 +63,7 @@ jobs:
         run: dotnet restore src/Selkie.DefCon.sln
 
       - name: Build (${{ env.BUILD_CONFIGURATION }})
-        run: dotnet build src/Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-restore
+        run: dotnet build src/Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-restore /p:BuildNumber=${{ github.run_number }}
 
       - name: Test (${{ env.BUILD_CONFIGURATION }})
         run: dotnet test src/Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-build --verbosity normal
@@ -76,7 +76,8 @@ jobs:
             --configuration $env:BUILD_CONFIGURATION `
             --output $env:PACKAGE_OUTPUT `
             -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg `
-            -p:ContinuousIntegrationBuild=true
+            -p:ContinuousIntegrationBuild=true `
+            -p:BuildNumber=${{ github.run_number }}
           Get-ChildItem $env:PACKAGE_OUTPUT
 
       - name: Determine package version
