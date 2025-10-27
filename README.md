@@ -1,6 +1,7 @@
 # Selkie.DefCon
 
 [![.NET Build and Test](https://github.com/tschroedter/Selkie.DefCon/actions/workflows/dotnet.yml/badge.svg)](https://github.com/tschroedter/Selkie.DefCon/actions/workflows/dotnet.yml)
+[![Dependabot Updates](https://github.com/tschroedter/Selkie.DefCon/actions/workflows/dependabot-trigger.yml/badge.svg)](https://github.com/tschroedter/Selkie.DefCon/actions/workflows/dependabot-trigger.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A .NET library providing defensive programming utilities and testing helpers for building robust applications.
