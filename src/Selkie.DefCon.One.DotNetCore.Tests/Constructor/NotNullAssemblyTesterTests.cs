@@ -1,4 +1,4 @@
-﻿using System.Reflection ;
+using System.Reflection ;
 using Autofac ;
 using AutofacSerilogIntegration ;
 using Microsoft.VisualStudio.TestTools.UnitTesting ;
@@ -18,7 +18,7 @@ public class NotNullAssemblyTesterTests
     [ TestCleanup ]
     public void Cleanup ( )
     {
-        _container.Dispose ( ) ;
+        _container?.Dispose ( ) ;
     }
 
     [ TestMethod ]
