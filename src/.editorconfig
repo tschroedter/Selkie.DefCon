@@ -1,4 +1,4 @@
-# .editorconfig - central code style and analyzer severity configuration
+# .editorconfig - repository code style and analyzer configuration
 # Root file
 root = true
 
@@ -10,28 +10,27 @@ indent_size = 4
 trim_trailing_whitespace = true
 insert_final_newline = true
 
-# Sort system directives first
+# Sort system directives first (matches repo)
 dotnet_sort_system_directives_first = true
 
 [*.{cs,vb}]
-# Treat analyzer diagnostics with default severity (can be overridden per-rule below)
+# Analyzer defaults
 dotnet_analyzer_diagnostic.severity = warning
 
-# C# language style preferences
 [*.cs]
-# File-scoped namespaces
-csharp_style_namespace_declarations = file_scoped:suggestion
+# File-scoped namespaces (repository uses them)
+csharp_style_namespace_declarations = file_scoped:warning
 
-# var usage
-csharp_style_var_for_built_in_types = true:suggestion
-csharp_style_var_when_type_is_apparent = true:suggestion
+# var usage: repository prefers explicit types
+csharp_style_var_for_built_in_types = false:suggestion
+csharp_style_var_when_type_is_apparent = false:suggestion
 csharp_style_var_elsewhere = false:suggestion
 
-# Pattern matching and switch expressions
+# Pattern matching and switch expressions - allow but not required
 csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 csharp_style_prefer_switch_expression = true:suggestion
 
-# Expression-bodied members
+# Expression-bodied members - keep as suggestion
 csharp_style_expression_bodied_methods = when_on_single_line:suggestion
 csharp_style_expression_bodied_properties = when_on_single_line:suggestion
 
@@ -45,20 +44,35 @@ csharp_style_throw_expression = true:suggestion
 # Prefer auto-properties where possible
 csharp_style_prefer_auto_properties = true:suggestion
 
-# File header and documentation
+# Keep parameter names in doc comments warnings off
 dotnet_diagnostic.IDE0060.severity = none
 
-# Analyzer category tuning (examples)
-# Make style diagnostics less noisy by default
+# Suppress IDE0055 (formatting) in editor/hints to avoid noisy suggestions in this repo
+dotnet_diagnostic.IDE0055.severity = none
+
+# Analyzer category tuning
 dotnet_analyzer_diagnostic.category-Style.severity = suggestion
-# Keep potential bugs as warnings by default
 dotnet_analyzer_diagnostic.category-Reliability.severity = warning
 
-# Test project adjustments: allow common test-initialization patterns to remain warnings instead of errors
-# (these can be tightened if you prefer explicit fixes rather than suppressions)
+# Naming style: private fields use _camelCase (matches repository style)
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.required_modifiers = readonly
+
+dotnet_naming_style.underscore_prefix.required_prefix = _
+dotnet_naming_style.underscore_prefix.capitalization = camel_case
+
+dotnet_naming_rule.private_fields_must_have_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_must_have_underscore.style = underscore_prefix
+dotnet_naming_rule.private_fields_must_have_underscore.severity = suggestion
+
+# Tests: keep some nullable diagnostics as warnings to avoid build failures but keep visibility
 [**/Selkie.DefCon.One.DotNetCore.Tests/**]
-# Keep nullable and conversion warnings enabled but allow them as warnings (not errors)
 dotnet_diagnostic.CS8618.severity = warning
 dotnet_diagnostic.CS8625.severity = warning
+
+[**/Selkie.DefCon.One.Test.Examples/**]
+# also suppress CA1707 for example/test project naming conventions (underscores)
+dotnet_diagnostic.CA1707.severity = none
 
 # End of .editorconfig
