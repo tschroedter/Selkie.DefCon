@@ -1,0 +1,64 @@
+# .editorconfig - central code style and analyzer severity configuration
+# Root file
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Sort system directives first
+dotnet_sort_system_directives_first = true
+
+[*.{cs,vb}]
+# Treat analyzer diagnostics with default severity (can be overridden per-rule below)
+dotnet_analyzer_diagnostic.severity = warning
+
+# C# language style preferences
+[*.cs]
+# File-scoped namespaces
+csharp_style_namespace_declarations = file_scoped:suggestion
+
+# var usage
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = false:suggestion
+
+# Pattern matching and switch expressions
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_prefer_switch_expression = true:suggestion
+
+# Expression-bodied members
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = when_on_single_line:suggestion
+
+# Prefer inferred tuple names and simple default expressions
+csharp_style_inferred_tuple_names = true:suggestion
+csharp_prefer_simple_default_expression = true:suggestion
+
+# Prefer throwing expressions
+csharp_style_throw_expression = true:suggestion
+
+# Prefer auto-properties where possible
+csharp_style_prefer_auto_properties = true:suggestion
+
+# File header and documentation
+dotnet_diagnostic.IDE0060.severity = none
+
+# Analyzer category tuning (examples)
+# Make style diagnostics less noisy by default
+dotnet_analyzer_diagnostic.category-Style.severity = suggestion
+# Keep potential bugs as warnings by default
+dotnet_analyzer_diagnostic.category-Reliability.severity = warning
+
+# Test project adjustments: allow common test-initialization patterns to remain warnings instead of errors
+# (these can be tightened if you prefer explicit fixes rather than suppressions)
+[**/Selkie.DefCon.One.DotNetCore.Tests/**]
+# Keep nullable and conversion warnings enabled but allow them as warnings (not errors)
+dotnet_diagnostic.CS8618.severity = warning
+dotnet_diagnostic.CS8625.severity = warning
+
+# End of .editorconfig

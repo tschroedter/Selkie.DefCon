@@ -1,4 +1,4 @@
-﻿using System ;
+using System ;
 using System.Linq ;
 using System.Reflection ;
 using FluentAssertions ;
@@ -14,7 +14,7 @@ public class CallingInformationTests
     private ParameterInfo   _parameterInfo ;
 
     [ TestMethod ]
-    public void Constructor_ForConstructorInfoIsNull_Throws ( )
+    public void Cocnstructor_ForConstructorInfoIsNull_Throws ( )
     {
         _constructorInfo = null ;
 

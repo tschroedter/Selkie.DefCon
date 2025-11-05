@@ -9,7 +9,7 @@
     <AnalysisLevel>latest</AnalysisLevel>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <!-- Tests intentionally initialize fields in TestInitialize; suppress CS8618/CS8625 and MSTEST analyzer about parallelization -->
-    <NoWarn>$(NoWarn);CS8618;CS8625;MSTEST0001</NoWarn>
+    <NoWarn>$(NoWarn);CS8618;CS8625;MSTEST0001;CA1707</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
