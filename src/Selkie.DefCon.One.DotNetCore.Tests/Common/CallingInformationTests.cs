@@ -14,7 +14,7 @@ public class CallingInformationTests
     private ParameterInfo   _parameterInfo ;
 
     [ TestMethod ]
-    public void Cocnstructor_ForConstructorInfoIsNull_Throws ( )
+    public void Constructor_ForConstructorInfoIsNull_Throws ( )
     {
         _constructorInfo = null ;
 
@@ -67,9 +67,9 @@ public class CallingInformationTests
     public void Setup ( )
     {
         _constructorInfo = typeof ( TestClass ).GetConstructors ( )
-                                               .First ( ) ;
+                                               [ 0 ] ;
 
         _parameterInfo = _constructorInfo.GetParameters ( )
-                                         .First ( ) ;
+                                         [ 0 ] ;
     }
 }
