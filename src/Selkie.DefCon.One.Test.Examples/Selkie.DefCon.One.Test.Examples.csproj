@@ -11,4 +11,4 @@
     <ProjectReference Include="..\Selkie.DefCon.One\Selkie.DefCon.One.csproj" />
   </ItemGroup>
 
-</Project></Project>
+</Project>
