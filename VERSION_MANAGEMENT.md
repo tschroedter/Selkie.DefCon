@@ -83,6 +83,44 @@ Alternatively, you can pass the build number directly to the build command:
 
 You can also use environment variables or git tags to automatically determine the version.
 
+## Automated Release Management
+
+This project uses [Release Drafter](https://github.com/release-drafter/release-drafter) to automatically manage releases and changelog generation based on pull request labels.
+
+### Semantic Version Labels
+
+When creating or updating a pull request, add one of the following labels to control the version increment:
+
+- **`major`**: For breaking changes or significant releases (e.g., 1.0.0 → 2.0.0)
+- **`minor`**: For new features and enhancements (e.g., 1.0.0 → 1.1.0)
+- **`patch`**: For bug fixes and small updates (e.g., 1.0.0 → 1.0.1)
+
+If no label is specified, the default is `patch`.
+
+### Category Labels
+
+Additional labels help organize the changelog:
+
+- **`feature`** or **`enhancement`**: Listed under 🚀 Features
+- **`fix`**, **`bugfix`**, or **`bug`**: Listed under 🐛 Bug Fixes
+- **`chore`** or **`maintenance`**: Listed under 🧰 Maintenance
+- **`documentation`** or **`docs`**: Listed under 📚 Documentation
+- **`security`**: Listed under 🔒 Security
+
+### How It Works
+
+1. When PRs are opened, updated, or merged to `main`, Release Drafter automatically:
+   - Creates or updates a draft release
+   - Determines the next version number based on the PR labels
+   - Generates changelog entries organized by category
+   - Updates the draft release notes
+
+2. When ready to publish a release:
+   - Review the draft release in GitHub
+   - Edit if needed
+   - Publish the release
+   - The tag and release notes are automatically created
+
 ## Benefits
 
 1. **Single Source of Truth**: Version is defined in one place
@@ -90,3 +128,4 @@ You can also use environment variables or git tags to automatically determine th
 3. **Automation**: Easy to update versions programmatically
 4. **CI/CD Friendly**: Simple to integrate with build pipelines
 5. **Flexibility**: Supports pre-release versions with suffixes
+6. **Automated Release Notes**: Changelog is automatically generated from PR labels
