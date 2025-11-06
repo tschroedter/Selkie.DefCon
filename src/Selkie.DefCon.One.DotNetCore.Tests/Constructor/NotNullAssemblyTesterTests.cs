@@ -18,7 +18,7 @@ public class NotNullAssemblyTesterTests
     [ TestCleanup ]
     public void Cleanup ( )
     {
-        _container?.Dispose ( ) ;
+        _container.Dispose ( ) ;
     }
 
     [ TestMethod ]

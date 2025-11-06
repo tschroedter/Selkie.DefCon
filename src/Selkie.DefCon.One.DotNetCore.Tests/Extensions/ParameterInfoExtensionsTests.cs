@@ -16,8 +16,8 @@ public class ParameterInfoExtensionsTests
         // ReSharper disable once PossibleNullReferenceException
         var parameters = typeof ( TestClass ).GetConstructor ( [
                                                                    typeof ( int )
-                                                               ] )! // constructor is known to exist in TestClass
-                                             .GetParameters ( )!; // parameters are known to exist
+                                                               ] )
+                                             .GetParameters ( ) ;
 
         parameters [ 0 ]
            .ToText ( )
@@ -37,8 +37,8 @@ public class ParameterInfoExtensionsTests
         var parameters = typeof ( TestClassWithAttribute ).GetConstructor ( [
                                                                                 typeof ( int ) ,
                                                                                 typeof ( ISomething )
-                                                                            ] )! // constructor is known to exist
-                                                          .GetParameters ( )!; // parameters are known to exist
+                                                                            ] )
+                                                          .GetParameters ( ) ;
 
 
         parameters
@@ -55,8 +55,8 @@ public class ParameterInfoExtensionsTests
         // ReSharper disable once PossibleNullReferenceException
         var parameters = typeof ( TestClass ).GetConstructor ( [
                                                                    typeof ( int )
-                                                               ] )! // constructor is known to exist
-                                             .GetParameters ( )!; // parameters are known to exist
+                                                               ] )
+                                             .GetParameters ( ) ;
 
         parameters.ToText ( )
                   .Should ( )
@@ -75,8 +75,8 @@ public class ParameterInfoExtensionsTests
         var parameters = typeof ( TestClassWithAttribute ).GetConstructor ( [
                                                                                 typeof ( int ) ,
                                                                                 typeof ( ISomething )
-                                                                            ] )! // constructor is known to exist
-                                                          .GetParameters ( )!; // parameters are known to exist
+                                                                            ] )
+                                                          .GetParameters ( ) ;
 
         parameters.ToText ( )
                   .Should ( )
