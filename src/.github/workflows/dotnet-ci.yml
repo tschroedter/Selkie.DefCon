@@ -1,0 +1,140 @@
+name: .NET CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      configuration:
+        description: Build configuration
+        required: true
+        default: Release
+        type: choice
+        options:
+          - Release
+          - Debug
+      publish:
+        description: "Publish to NuGet (true/false) - only honored on tag runs"
+        required: false
+        default: "false"
+  push:
+    branches: [ main ]
+    tags: [ 'v*', 'deploy*' ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build, Test, Pack
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: .
+    env:
+      BUILD_CONFIGURATION: ${{ github.event_name == 'workflow_dispatch' && inputs.configuration || 'Release' }}
+      PACKAGE_OUTPUT: artifacts\packages
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Setup .NET 10.x SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~\AppData\Local\NuGet\v3-cache
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: .NET info
+        run: dotnet --info
+
+      - name: Restore
+        run: dotnet restore Selkie.DefCon.sln
+
+      - name: Build (${{ env.BUILD_CONFIGURATION }})
+        run: dotnet build Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-restore
+
+      - name: Test (${{ env.BUILD_CONFIGURATION }})
+        run: dotnet test Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-build --verbosity normal
+
+      - name: Pack NuGet packages (${{ env.BUILD_CONFIGURATION }})
+        run: |
+          New-Item -ItemType Directory -Path $env:PACKAGE_OUTPUT -Force | Out-Null
+          # Pack the solution; this will produce packages for any packable projects in the solution
+          dotnet pack Selkie.DefCon.sln `
+            --configuration $env:BUILD_CONFIGURATION `
+            --output $env:PACKAGE_OUTPUT `
+            -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg `
+            -p:ContinuousIntegrationBuild=true
+          Get-ChildItem $env:PACKAGE_OUTPUT
+
+      - name: Determine package version
+        id: determine_version
+        run: |
+          $pkg = Get-ChildItem "$env:PACKAGE_OUTPUT\*.nupkg" | Where-Object { $_.Name -notlike "*.snupkg" } | Select-Object -First 1
+          if (-not $pkg) { Write-Error "No package found"; exit 1 }
+          $base = $pkg.BaseName
+          # Try to extract version by assuming version starts with a digit (e.g. Package.Id.1.2.3)
+          if ($base -match '^(?<id>.+)\.(?<ver>\d+\.\d+\.\d+.*)$') {
+            $version = $Matches['ver']
+          } else {
+            Write-Error "Could not parse version from $($pkg.Name)"; exit 1
+          }
+          "version=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          Write-Host "Detected package version: $version"
+
+      - name: Upload NuGet packages artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: nuget-packages-${{ steps.determine_version.outputs.version }}-win-x64
+          path: |
+            ${{ env.PACKAGE_OUTPUT }}\*.nupkg
+            ${{ env.PACKAGE_OUTPUT }}\*.snupkg
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Publish to NuGet.org (trigger 'deploy...' tag)
+        id: publish_to_nuget
+        if: startsWith(github.ref, 'refs/tags/deploy') && (github.event_name != 'workflow_dispatch' || inputs.publish == 'true')
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          if (-not $env:NUGET_API_KEY) {
+            Write-Error "NUGET_API_KEY secret not set. Add it in the repository settings."
+            exit 1
+          }
+          Write-Host "Pushing packages for ref $env:GITHUB_REF"
+          dotnet nuget push "$env:PACKAGE_OUTPUT\*.nupkg" `
+            --api-key $env:NUGET_API_KEY `
+            --source https://api.nuget.org/v3/index.json `
+            --skip-duplicate
+          # Push symbols explicitly (some clients need explicit push)
+          Get-ChildItem "$env:PACKAGE_OUTPUT\*.snupkg" | ForEach-Object {
+            dotnet nuget push $_.FullName --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+          }
+
+      - name: Create and push git tag (after successful NuGet publish)
+        if: steps.publish_to_nuget.outcome == 'success'
+        run: |
+          $version = "${{ steps.determine_version.outputs.version }}"
+          $tag = "v$version"
+          git fetch --tags --quiet
+          if (git rev-parse -q --verify "refs/tags/$tag") {
+            Write-Host "Tag $tag already exists, skipping."
+          } else {
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git tag -a $tag -m "Automated build $tag"
+            git push origin $tag
+          }
