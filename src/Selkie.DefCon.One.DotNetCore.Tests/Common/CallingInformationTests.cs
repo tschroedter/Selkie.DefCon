@@ -1,5 +1,4 @@
-﻿using System ;
-using System.Linq ;
+using System ;
 using System.Reflection ;
 using FluentAssertions ;
 using Microsoft.VisualStudio.TestTools.UnitTesting ;
@@ -67,9 +66,9 @@ public class CallingInformationTests
     public void Setup ( )
     {
         _constructorInfo = typeof ( TestClass ).GetConstructors ( )
-                                               .First ( ) ;
+                                               [ 0 ] ;
 
         _parameterInfo = _constructorInfo.GetParameters ( )
-                                         .First ( ) ;
+                                         [ 0 ] ;
     }
 }

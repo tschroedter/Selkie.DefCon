@@ -38,15 +38,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Setup .NET 8.x SDK
-        uses: actions/setup-dotnet@v5
+      - name: Setup .NET 10.x SDK
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '10.0.x'
 
       - name: Cache NuGet packages
         uses: actions/cache@v4
@@ -63,7 +63,7 @@ jobs:
         run: dotnet restore src/Selkie.DefCon.sln
 
       - name: Build (${{ env.BUILD_CONFIGURATION }})
-        run: dotnet build src/Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-restore /p:BuildNumber=${{ github.run_number }}
+        run: dotnet build src/Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-restore
 
       - name: Test (${{ env.BUILD_CONFIGURATION }})
         run: dotnet test src/Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-build --verbosity normal
@@ -76,8 +76,7 @@ jobs:
             --configuration $env:BUILD_CONFIGURATION `
             --output $env:PACKAGE_OUTPUT `
             -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg `
-            -p:ContinuousIntegrationBuild=true `
-            -p:BuildNumber=${{ github.run_number }}
+            -p:ContinuousIntegrationBuild=true
           Get-ChildItem $env:PACKAGE_OUTPUT
 
       - name: Determine package version
@@ -96,7 +95,7 @@ jobs:
           Write-Host "Detected package version: $version"
 
       - name: Upload NuGet packages artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: nuget-packages-${{ steps.determine_version.outputs.version }}-win-x64
           path: |

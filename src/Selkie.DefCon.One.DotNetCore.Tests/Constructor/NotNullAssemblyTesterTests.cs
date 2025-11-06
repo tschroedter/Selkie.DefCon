@@ -1,4 +1,4 @@
-﻿using System.Reflection ;
+using System.Reflection ;
 using Autofac ;
 using AutofacSerilogIntegration ;
 using Microsoft.VisualStudio.TestTools.UnitTesting ;
