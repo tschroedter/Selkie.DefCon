@@ -87,31 +87,18 @@ You can also use environment variables or git tags to automatically determine th
 
 This project uses [Release Drafter](https://github.com/release-drafter/release-drafter) to automatically manage releases and changelog generation based on pull request labels.
 
-### Semantic Version Labels
-
-When creating or updating a pull request, add one of the following labels to control the version increment:
-
-- **`major`**: For breaking changes or significant releases (e.g., 1.0.0 → 2.0.0)
-- **`minor`**: For new features and enhancements (e.g., 1.0.0 → 1.1.0)
-- **`patch`**: For bug fixes and small updates (e.g., 1.0.0 → 1.0.1)
-
-If no label is specified, the default is `patch`.
-
 ### Category Labels
 
-Additional labels help organize the changelog:
+When creating a pull request, add appropriate labels to organize the changelog:
 
-- **`feature`** or **`enhancement`**: Listed under 🚀 Features
-- **`fix`**, **`bugfix`**, or **`bug`**: Listed under 🐛 Bug Fixes
-- **`chore`** or **`maintenance`**: Listed under 🧰 Maintenance
-- **`documentation`** or **`docs`**: Listed under 📚 Documentation
-- **`security`**: Listed under 🔒 Security
+- **`feature`**: Listed under 🚀 Features
+- **`fix`**: Listed under 🐛 Fixes
 
 ### How It Works
 
 1. When PRs are opened, updated, or merged to `main`, Release Drafter automatically:
    - Creates or updates a draft release
-   - Determines the next version number based on the PR labels
+   - Increments the patch version (e.g., 1.0.0 → 1.0.1)
    - Generates changelog entries organized by category
    - Updates the draft release notes
 

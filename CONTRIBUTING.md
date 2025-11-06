@@ -121,21 +121,13 @@ This project uses labels for both issue tracking and automated release managemen
 
 #### Pull Request Labels for Release Management
 
-When creating a pull request, add appropriate labels to control versioning and changelog generation:
-
-**Version Control Labels** (add one):
-* `major` - Breaking changes or significant releases (bumps major version)
-* `minor` - New features and enhancements (bumps minor version)
-* `patch` - Bug fixes and small updates (bumps patch version, default if no label)
+When creating a pull request, add appropriate labels to organize the changelog:
 
 **Category Labels** (add one or more):
-* `feature` or `enhancement` - New features
-* `fix`, `bugfix`, or `bug` - Bug fixes
-* `chore` or `maintenance` - Maintenance work
-* `documentation` or `docs` - Documentation updates
-* `security` - Security-related changes
+* `feature` - New features
+* `fix` - Bug fixes
 
-These labels help automatically generate release notes and determine the next version number. See [VERSION_MANAGEMENT.md](VERSION_MANAGEMENT.md) for more details.
+These labels help automatically generate release notes. See [VERSION_MANAGEMENT.md](VERSION_MANAGEMENT.md) for more details.
 
 ## Questions?
 
