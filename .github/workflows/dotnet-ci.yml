@@ -60,19 +60,19 @@ jobs:
         run: dotnet --info
 
       - name: Restore
-        run: dotnet restore Selkie.DefCon.sln
+        run: dotnet restore src/Selkie.DefCon.sln
 
       - name: Build (${{ env.BUILD_CONFIGURATION }})
-        run: dotnet build Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-restore
+        run: dotnet build src/Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-restore
 
       - name: Test (${{ env.BUILD_CONFIGURATION }})
-        run: dotnet test Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-build --verbosity normal
+        run: dotnet test src/Selkie.DefCon.sln --configuration $env:BUILD_CONFIGURATION --no-build --verbosity normal
 
       - name: Pack NuGet packages (${{ env.BUILD_CONFIGURATION }})
         run: |
           New-Item -ItemType Directory -Path $env:PACKAGE_OUTPUT -Force | Out-Null
           # Pack the solution; this will produce packages for any packable projects in the solution
-          dotnet pack Selkie.DefCon.sln `
+          dotnet pack src/Selkie.DefCon.sln `
             --configuration $env:BUILD_CONFIGURATION `
             --output $env:PACKAGE_OUTPUT `
             -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg `
