@@ -37,7 +37,15 @@ jobs:
           echo "::error::Please set the secret SONAR_TOKEN with your SonarCloud token.";
           exit 1;
         fi
-        dotnet sonarscanner begin /k:"${{ secrets.SONAR_PROJECT_KEY }}" /o:"${{ secrets.SONAR_ORG }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        if [ -z "${{ secrets.SONAR_PROJECT_KEY }}" ]; then
+          echo "::error::Please set the secret SONAR_PROJECT_KEY with your SonarCloud project key.";
+          exit 1;
+        fi
+        if [ -z "${{ secrets.SONAR_ORG }}" ]; then
+          echo "::error::Please set the secret SONAR_ORG with your SonarCloud organization key.";
+          exit 1;
+        fi
+        dotnet sonarscanner begin /k:"${{ secrets.SONAR_PROJECT_KEY }}" /o:"${{ secrets.SONAR_ORG }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
 
     - name: Restore dependencies
       run: dotnet restore src/Selkie.DefCon.sln
