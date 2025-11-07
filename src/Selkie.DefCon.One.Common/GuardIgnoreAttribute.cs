@@ -1,8 +1,13 @@
-﻿using System ;
+using System ;
 
 namespace Selkie.DefCon.One.Common ;
 
 // ReSharper disable once RedundantTypeDeclarationBody
-public class GuardIgnoreAttribute : Attribute
+[ AttributeUsage(AttributeTargets.Parameter |
+                 AttributeTargets.Property  |
+                 AttributeTargets.Field     |
+                 AttributeTargets.Method ,
+                 Inherited = false) ]
+public sealed class GuardIgnoreAttribute : Attribute
 {
 }
