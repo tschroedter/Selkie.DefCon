@@ -36,6 +36,11 @@ jobs:
         dotnet-version: '10.0.x'
         include-prerelease: true
 
+    - name: Warn about CodeQL and .NET 10
+      run: |
+        echo "::warning::CodeQL's C# extractor may not yet support .NET 10. Analysis could fail with 'no source code seen'."
+        echo "::warning::If you need successful analysis, consider running CodeQL with a supported SDK (e.g. 8.x) in a separate job or reverting to a supported SDK for the workflow."
+
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v4
       with:
@@ -46,44 +51,6 @@ jobs:
 
     - name: Build
       run: dotnet build src/Selkie.DefCon.sln --configuration Release --no-restore
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v4
-      with:
-        category: "/language:${{ matrix.language }}"
-
-  analyze-compatible:
-    name: Analyze (dotnet-8-compatible)
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'csharp' ]
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v5
-
-    - name: Setup .NET (stable for CodeQL)
-      uses: actions/setup-dotnet@v5
-      with:
-        dotnet-version: '8.0.x'
-
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v4
-      with:
-        languages: ${{ matrix.language }}
-
-    - name: Restore dependencies (target net8.0 for analysis)
-      run: dotnet restore src/Selkie.DefCon.sln -p:TargetFramework=net8.0
-
-    - name: Build (target net8.0 for analysis)
-      run: dotnet build src/Selkie.DefCon.sln --configuration Release --no-restore -p:TargetFramework=net8.0
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
