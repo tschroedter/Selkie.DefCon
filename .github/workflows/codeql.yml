@@ -41,18 +41,19 @@ jobs:
         echo "::warning::CodeQL's C# extractor may not yet support .NET 10. Analysis could fail with 'no source code seen'."
         echo "::warning::If you need successful analysis, consider running CodeQL with a supported SDK (e.g. 8.x) in a separate job or reverting to a supported SDK for the workflow."
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v4
-      with:
-        languages: ${{ matrix.language }}
-
-    - name: Restore dependencies
-      run: dotnet restore src/Selkie.DefCon.sln
-
-    - name: Build
-      run: dotnet build src/Selkie.DefCon.sln --configuration Release --no-restore
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v4
-      with:
-        category: "/language:${{ matrix.language }}"
+#    - name: Initialize CodeQL
+#      uses: github/codeql-action/init@v4
+#      with:
+#        languages: ${{ matrix.language }}
+#
+#    - name: Restore dependencies
+#      run: dotnet restore src/Selkie.DefCon.sln
+#
+#    - name: Build
+#      run: dotnet build src/Selkie.DefCon.sln --configuration Release --no-restore
+#
+#    - name: Perform CodeQL Analysis
+#      uses: github/codeql-action/analyze@v4
+#      with:
+#        category: "/language:${{ matrix.language }}"
+#
