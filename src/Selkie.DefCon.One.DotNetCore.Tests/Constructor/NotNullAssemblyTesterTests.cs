@@ -1,4 +1,5 @@
-﻿using System.Reflection ;
+using System;
+using System.Reflection ;
 using Autofac ;
 using AutofacSerilogIntegration ;
 using Microsoft.VisualStudio.TestTools.UnitTesting ;
@@ -25,8 +26,15 @@ public class NotNullAssemblyTesterTests
     public void Constructor_ForAnyParameterNull_Throws ( )
     {
         // ReSharper disable once AssignNullToNotNullAttribute
-        CreateSut ( )
-           .Test ( Assembly.GetAssembly ( typeof ( ExamplePassing ) ) ) ;
+        try
+        {
+            // ReSharper disable once AssignNullToNotNullAttribute
+            CreateSut().Test(Assembly.GetAssembly(typeof(ExamplePassing)));
+        }
+        catch (Exception ex)
+        {
+            Assert.Fail($"Expected no exception, but got: {ex}");
+        }
     }
 
     [ TestInitialize ]
