@@ -1,0 +1,58 @@
+name: "SonarCloud Code Analysis"
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    - cron: '0 0 * * 1'
+
+permissions:
+  contents: read
+
+jobs:
+  sonarcloud:
+    name: SonarCloud analysis
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v5
+
+    - name: Setup .NET (allow prerelease for .NET 10)
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '10.0.x'
+        include-prerelease: true
+
+    - name: Install SonarScanner for .NET
+      run: dotnet tool install --global dotnet-sonarscanner --version 5.11.0 || true
+
+    - name: Begin SonarCloud analysis
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+        if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+          echo "::error::Please set the secret SONAR_TOKEN with your SonarCloud token.";
+          exit 1;
+        fi
+        dotnet sonarscanner begin /k:"${{ secrets.SONAR_PROJECT_KEY }}" /o:"${{ secrets.SONAR_ORG }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+    - name: Restore dependencies
+      run: dotnet restore src/Selkie.DefCon.sln
+
+    - name: Build
+      run: dotnet build src/Selkie.DefCon.sln --configuration Release --no-restore
+
+    - name: Run tests
+      run: dotnet test src/Selkie.DefCon.sln --configuration Release --no-build
+
+    - name: End SonarCloud analysis
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+# Notes:
+# - Set the repository secrets: SONAR_TOKEN, SONAR_ORG, SONAR_PROJECT_KEY in GitHub Settings > Secrets.
+# - If SonarCloud or the scanner doesn't support .NET 10 yet, consider using a supported SDK for analysis runs.
