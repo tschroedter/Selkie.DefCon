@@ -33,12 +33,12 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROPS_FILE="$SCRIPT_DIR/src/Directory.Build.props"
 
-if [ ! -f "$PROPS_FILE" ]; then
+if [[ ! -f "$PROPS_FILE" ]]; then
     echo "Error: Directory.Build.props not found at: $PROPS_FILE" >&2
     exit 1
 fi
 
-if [ -n "$VERSION_SUFFIX" ]; then
+if [[ -n "$VERSION_SUFFIX" ]]; then
     echo "Updating version to: $VERSION.$BUILD_NUMBER-$VERSION_SUFFIX"
 else
     echo "Updating version to: $VERSION.$BUILD_NUMBER"
