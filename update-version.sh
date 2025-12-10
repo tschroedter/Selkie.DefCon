@@ -6,7 +6,7 @@
 
 set -e
 
-if [ -z "$1" ]; then
+if [[ -z "$1" ]]; then
     echo "Error: Version parameter is required"
     echo "Usage: ./update-version.sh VERSION [BUILD_NUMBER] [VERSION_SUFFIX]"
     echo "Example: ./update-version.sh 0.1 123"
