@@ -7,7 +7,7 @@
 set -e
 
 if [[ -z "$1" ]]; then
-    echo "Error: Version parameter is required"
+    echo "Error: Version parameter is required" >&2
     echo "Usage: ./update-version.sh VERSION [BUILD_NUMBER] [VERSION_SUFFIX]"
     echo "Example: ./update-version.sh 0.1 123"
     echo "         ./update-version.sh 0.1 123 beta"
@@ -20,13 +20,13 @@ VERSION_SUFFIX=${3:-""}
 
 # Validate version format (X.Y format)
 if ! [[ $VERSION =~ ^[0-9]+\.[0-9]+$ ]]; then
-    echo "Error: Invalid version format. Expected format: X.Y (e.g., 0.1)"
+    echo "Error: Invalid version format. Expected format: X.Y (e.g., 0.1)" >&2
     exit 1
 fi
 
 # Validate build number format
 if ! [[ $BUILD_NUMBER =~ ^[0-9]+$ ]]; then
-    echo "Error: Invalid build number format. Expected a number (e.g., 123)"
+    echo "Error: Invalid build number format. Expected a number (e.g., 123)" >&2
     exit 1
 fi
 
@@ -34,7 +34,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROPS_FILE="$SCRIPT_DIR/src/Directory.Build.props"
 
 if [ ! -f "$PROPS_FILE" ]; then
-    echo "Error: Directory.Build.props not found at: $PROPS_FILE"
+    echo "Error: Directory.Build.props not found at: $PROPS_FILE" >&2
     exit 1
 fi
 
