@@ -96,7 +96,7 @@ jobs:
           Write-Host "Detected package version: $version"
 
       - name: Upload NuGet packages artifact
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: nuget-packages-${{ steps.determine_version.outputs.version }}-win-x64
           path: |
