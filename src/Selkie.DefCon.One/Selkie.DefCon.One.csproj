@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageTags>MSTest MSTest2 Extension AutoFixture NSubstitute AutoMocking DefensiveProgramming Guard Testing</PackageTags>
     <RepositoryUrl>https://github.com/tschroedter/Selkie.DefCon</RepositoryUrl>
