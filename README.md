@@ -9,7 +9,7 @@ A .NET library providing defensive programming utilities and testing helpers for
 ## Features
 
 - **Guard Clauses**: Comprehensive set of guard methods to validate method arguments
-- **Constructor Testing**: Automated testing utilities for constructor null checks using AutoFixture and NSubstitute
+- **Constructor Testing**: Automated testing utilities for constructor null checks using NSubstitute
 - **MSTest Integration**: Seamless integration with MSTest2 for automated testing
 - **Autofac Support**: Built-in Autofac module for dependency injection
 
@@ -121,7 +121,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-- Built with [AutoFixture](https://github.com/AutoFixture/AutoFixture)
 - Uses [NSubstitute](https://nsubstitute.github.io/) for test substitutes
 - Dependency injection powered by [Autofac](https://autofac.org/)
 

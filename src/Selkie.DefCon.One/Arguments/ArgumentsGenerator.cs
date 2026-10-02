@@ -1,10 +1,8 @@
-﻿using System ;
+using System ;
 using System.Collections.Generic ;
 using System.Globalization ;
 using System.Linq ;
-using AutoFixture ;
-using AutoFixture.AutoNSubstitute ;
-using AutoFixture.Kernel ;
+// AutoFixture removed; using project-local ObjectFactory instead
 using JetBrains.Annotations ;
 using Selkie.DefCon.One.Common ;
 using Selkie.DefCon.One.Interfaces.Arguments ;
@@ -16,17 +14,17 @@ namespace Selkie.DefCon.One.Arguments ;
 [ UsedImplicitly ]
 public class ArgumentsGenerator : IArgumentsGenerator
 {
-    private readonly IFixture    _fixture ;
+    private readonly IObjectFactory    _fixture ;
     private readonly ISutCreator _sutCreator ;
 
     public ArgumentsGenerator ( )
-        : this ( new Fixture ( ) ,
+        : this ( new ObjectFactory ( ) ,
                  new SutCreator ( new SutInstanceCreator ( new ArgumentNullExceptionFinder ( ) ) ,
                                   new SutLazyInstanceCreator ( new ArgumentNullExceptionFinder ( ) ) ) )
     {
     }
 
-    internal ArgumentsGenerator ( [ NotNull ] IFixture    fixture ,
+    internal ArgumentsGenerator ( [ NotNull ] IObjectFactory    fixture ,
                                   [ NotNull ] ISutCreator sutCreator )
     {
         Guard.ArgumentNotNull ( fixture ,
@@ -37,10 +35,6 @@ public class ArgumentsGenerator : IArgumentsGenerator
         _fixture    = fixture ;
         _sutCreator = sutCreator ;
 
-        _fixture.Customize ( new AutoNSubstituteCustomization
-                             {
-                                 ConfigureMembers = true
-                             } ) ;
     }
 
     public object [ ] Create ( IEnumerable < IParameterInfo > parameterInfos )
@@ -62,16 +56,16 @@ public class ArgumentsGenerator : IArgumentsGenerator
         Guard.ArgumentNotNull ( type ,
                                 nameof ( type ) ) ;
 
-        if ( isFreeze ) _fixture.Customize ( new FreezingCustomization ( type ) ) ;
 
-        if ( isBeNull ) _fixture.Customize ( new BeNullCustomization ( type ) ) ;
+        if ( isFreeze ) _fixture.Freeze ( type );
+
+        if ( isBeNull ) _fixture.RegisterNull ( type ) ;
 
         object parameter = null ;
 
         try
         {
-            parameter = _fixture.Create ( type ,
-                                          new SpecimenContext ( _fixture ) ) ;
+            parameter = _fixture.Create ( type ) ;
         }
         catch ( Exception e )
         {

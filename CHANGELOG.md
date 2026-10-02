@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Guard clauses for defensive programming
 - Constructor null check testing utilities
-- AutoFixture and NSubstitute integration
+- NSubstitute integration
 - MSTest2 support
 - Autofac module for dependency injection
 - Support for .NET 8.0
