@@ -1,6 +1,5 @@
 using System ;
-using AutoFixture ;
-using AutoFixture.AutoNSubstitute ;
+using Selkie.DefCon.One.Arguments ;
 using FluentAssertions ;
 using Microsoft.VisualStudio.TestTools.UnitTesting ;
 using NSubstitute ;
@@ -92,7 +91,7 @@ public class NotNullTesterResultTester
     [ TestMethod ]
     public void Test ( )
     {
-        var fixture = new Fixture ( ).Customize ( new AutoNSubstituteCustomization ( ) ) ;
+        var fixture = new ObjectFactory ( ) ;
 
         fixture.Freeze < INotNullTester > ( )
                .HasPassed.Returns ( true ) ;
@@ -105,7 +104,7 @@ public class NotNullTesterResultTester
 
     [ TestMethod ]
     [ AutoNSubstituteData ]
-    public void Test1 ( Fixture fixture )
+    public void Test1 ( IObjectFactory fixture )
     {
         fixture.Freeze < INotNullTester > ( )
                .HasPassed.Returns ( true ) ;
